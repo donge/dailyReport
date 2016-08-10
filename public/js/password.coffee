@@ -4,7 +4,7 @@ PasswordViewModel = ->
 
   validPassword = (password)->
     pw = $.trim(password)
-    pw.length >= 7 and pw.length<=25
+    pw.length >= 6 and pw.length<=25
 
   self.oldpassword = ko.observable('')
   self.newpassword = ko.observable('')

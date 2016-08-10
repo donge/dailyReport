@@ -8,17 +8,17 @@
     var self;
     self = this;
     self.userName = ko.observable('');
-    self.password = ko.observable('1234567');
-    self.repassword = ko.observable('1234567');
+    self.password = ko.observable('123456');
+    self.repassword = ko.observable('123456');
     self.validUserName = ko.computed(function() {
       var un;
       un = $.trim(self.userName());
-      return un.length >= 6 && un.length <= 25;
+      return un.length >= 2 && un.length <= 10;
     });
     self.validPassword = ko.computed(function() {
       var pw;
       pw = $.trim(self.password());
-      return pw.length >= 7 && pw.length <= 25;
+      return pw.length >= 6 && pw.length <= 25;
     });
     self.validRePassword = ko.computed(function() {
       return $.trim(self.password()) === $.trim(self.repassword());
@@ -59,12 +59,12 @@
     self.validUserName1 = ko.computed(function() {
       var un;
       un = $.trim(self.userName1());
-      return un.length >= 2 && un.length <= 25;
+      return un.length >= 2 && un.length <= 10;
     });
     self.validPassword1 = ko.computed(function() {
       var pw;
       pw = $.trim(self.password1());
-      return pw.length >= 7 && pw.length <= 25;
+      return pw.length >= 6 && pw.length <= 25;
     });
     self.validRePassword1 = ko.computed(function() {
       return $.trim(self.password1()) === $.trim(self.repassword1());

@@ -34,22 +34,38 @@ exports.getReports = (userId, page, numOfPage, callback) ->
     dateArgs = ["userid:#{userId}:reports"]
     contentArgs = ["userid:#{userId}:reports"]
     markArgs = ["userid:#{userId}:reports"]
+    content1Args = ["userid:#{userId}:reports"]
+    content2Args = ["userid:#{userId}:reports"]
+    content3Args = ["userid:#{userId}:reports"]
+    content4Args = ["userid:#{userId}:reports"]
     for reportId in reportIds
       dateArgs.push("#{reportId}:date")
       contentArgs.push("#{reportId}:content")
       markArgs.push("#{reportId}:mark")
+      content1Args.push("#{reportId}:content1")
+      content2Args.push("#{reportId}:content2")
+      content3Args.push("#{reportId}:content3")
+      content4Args.push("#{reportId}:content4")
     client.hmget(dateArgs, (err, dates)->
       return utils.showDBError(callback, client) if err
       client.hmget(contentArgs, (err, contents)->
         return utils.showDBError(callback, client) if err
         client.hmget(markArgs, (err, marks)->
           return utils.showDBError(callback, client) if err
-          len = contents.length
-          response = []
-          for i in [0...len]
-            response.push({id:reportIds[i], date:dates[i], content:contents[i], mark:marks[i]})
-          client.quit()
-          callback(new Response(1,'success',response)) ))))
+          client.hmget(content1Args, (err, content1s)->
+            return utils.showDBError(callback, client) if err
+            client.hmget(content2Args, (err, content2s)->
+              return utils.showDBError(callback, client) if err
+              client.hmget(content3Args, (err, content3s)->
+                return utils.showDBError(callback, client) if err
+                client.hmget(content4Args, (err, content4s)->
+                  return utils.showDBError(callback, client) if err
+                  len = contents.length
+                  response = []
+                  for i in [0...len]
+                    response.push({id:reportIds[i], date:dates[i], content:contents[i], mark:marks[i], content1:content1s[i], content2:content2s[i], content3:content3s[i], content4:content4s[i]})
+                  client.quit()
+                  callback(new Response(1,'success',response)) ))))))))
 
 exports.getReportNum = (userId, callback) ->
   client = utils.createClient()

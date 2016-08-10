@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>写日报</title>
+    <title>我的日报</title>
     <link rel='stylesheet' href='/css/bootstrap.min.css' />
     <link rel='stylesheet' href='/css/reportStyle.css' />
     <link rel='stylesheet' href='/css/pepper-grinder/jquery-ui-1.10.3.custom.min.css' />
@@ -37,8 +37,12 @@
         <ul class="unstyled" data-bind="foreach: reports">
             <li class="report">
                 <p class="date"><i class="icon-calendar"></i><span data-bind="text: date"></span></p>
-                <div class="content" data-bind="html: content"></div>
-                <div class="content" data-bind="html: mark"></div>
+                今日日志<div class="content" data-bind="html: content"></div>
+                今日自评<div class="content" data-bind="text: mark"></div>
+                行得通的<div class="content" data-bind="text: content1"></div>
+                待提高的<div class="content" data-bind="text: content2"></div>
+                明日计划<div class="content" data-bind="text: content3"></div>
+                需要帮助<div class="content" data-bind="text: content4"></div>
                 <!--<div class="content1" data-bind="text: content1"></div>-->
                 <!-- <p class="btn btn-link reply" data-bind="attr: {reportId: id}">reply</p> -->
                 <p class="btn btn-link delete" data-bind="attr: {reportId: id}">删除</p>

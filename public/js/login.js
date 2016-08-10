@@ -15,7 +15,7 @@
     self.validPassword = ko.computed(function() {
       var pw;
       pw = $.trim(self.password());
-      return pw.length >= 7 && pw.length <= 25;
+      return pw.length >= 6 && pw.length <= 25;
     });
     self.errorTip = ko.observable('');
     self.getErrorTip = function() {

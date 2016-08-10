@@ -4,15 +4,15 @@ treeList = new TreeList("#usersTree")
 UserViewModel = ->
   self = @
   self.userName = ko.observable('')
-  self.password = ko.observable('1234567')
-  self.repassword = ko.observable('1234567')
+  self.password = ko.observable('123456')
+  self.repassword = ko.observable('123456')
   self.validUserName = ko.computed(->
     un = $.trim(self.userName())
-    un.length >= 6 and un.length<=25)
+    un.length >= 2 and un.length<=10)
 
   self.validPassword = ko.computed(->
     pw = $.trim(self.password())
-    pw.length >= 7 and pw.length<=25)
+    pw.length >= 6 and pw.length<=25)
 
   self.validRePassword = ko.computed(->
     $.trim(self.password()) ==  $.trim(self.repassword()))
@@ -45,11 +45,11 @@ UserViewModel = ->
   self.repassword1 = ko.observable('')
   self.validUserName1 = ko.computed(->
     un = $.trim(self.userName1())
-    un.length >= 2 and un.length<=25)
+    un.length >= 2 and un.length<=10)
 
   self.validPassword1 = ko.computed(->
     pw = $.trim(self.password1())
-    pw.length >= 7 and pw.length<=25)
+    pw.length >= 6 and pw.length<=25)
 
   self.validRePassword1 = ko.computed(->
     $.trim(self.password1()) ==  $.trim(self.repassword1()))

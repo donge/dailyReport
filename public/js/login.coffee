@@ -9,7 +9,7 @@ LoginViewModel = ->
 
   self.validPassword = ko.computed(->
     pw = $.trim(self.password())
-    pw.length >= 7 and pw.length<=25)
+    pw.length >= 6 and pw.length<=25)
 
   self.errorTip =  ko.observable('')
 

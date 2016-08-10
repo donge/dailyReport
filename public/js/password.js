@@ -8,7 +8,7 @@
     validPassword = function(password) {
       var pw;
       pw = $.trim(password);
-      return pw.length >= 7 && pw.length <= 25;
+      return pw.length >= 6 && pw.length <= 25;
     };
     self.oldpassword = ko.observable('');
     self.newpassword = ko.observable('');

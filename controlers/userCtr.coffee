@@ -106,7 +106,7 @@ exports.createUser = (req, res) ->
 
   try
     check(userName, "字符长度为2-25").len(2,25)
-    check(password, "字符长度为7-25").len(7,25)
+    check(password, "字符长度为6-25").len(6,25)
   catch  error
     errorMessage = error.message
     return res.send(new Response(0, errorMessage))
@@ -132,7 +132,7 @@ exports.updateUser = (req, res) ->
   superiorId = req.body.superiorId;
 
   try
-    check(userName, "字符长度为6-25").len(6,25)
+    check(userName, "字符长度为6-25").len(2,25)
     hashedPassword = null
     hashedPassword = crypto.createHash("sha1").update(password).digest('hex') if password
     userModel.updateUser(userId, userName, hashedPassword, departmentId, superiorId, (response)->

@@ -168,7 +168,7 @@
     superiorId = req.body.superiorId;
     try {
       check(userName, "字符长度为2-25").len(2, 25);
-      check(password, "字符长度为7-25").len(7, 25);
+      check(password, "字符长度为6-25").len(6, 25);
     } catch (error1) {
       error = error1;
       errorMessage = error.message;
@@ -208,7 +208,7 @@
     departmentId = req.body.departmentId;
     superiorId = req.body.superiorId;
     try {
-      check(userName, "字符长度为6-25").len(6, 25);
+      check(userName, "字符长度为6-25").len(2, 25);
       hashedPassword = null;
       if (password) {
         hashedPassword = crypto.createHash("sha1").update(password).digest('hex');

@@ -148,6 +148,25 @@
     });
   };
 
+  exports.showcolleagueIndex = function(req, res) {
+    var userId;
+    if (!utils.authenticateUser(req, res)) {
+      return;
+    }
+    userId = req.session.userId;
+    return userModel.hasSubordinate(userId, function(result) {
+      if (result) {
+        return res.render("showsubordinate", {
+          hasSubordinate: true,
+          isLoginUser: utils.isLoginUser(req),
+          isAdmin: utils.isAdmin(req)
+        });
+      } else {
+        return res.send(new Response(0, '您还没有下属，不需要访问该页面'));
+      }
+    });
+  };
+
   exports.subordinateIndexMobile = function(req, res) {
     var userId;
     if (!utils.authenticateUser(req, res)) {

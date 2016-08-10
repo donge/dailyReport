@@ -89,6 +89,15 @@ exports.showsubordinateIndex = (req, res) ->
     else
       res.send(new Response(0,'您还没有下属，不需要访问该页面')))
 
+exports.showcolleagueIndex = (req, res) ->
+  return unless utils.authenticateUser(req,res)
+  userId = req.session.userId
+  userModel.hasSubordinate(userId, (result)->
+    if result
+      res.render("showsubordinate", {hasSubordinate:true, isLoginUser:utils.isLoginUser(req),isAdmin:utils.isAdmin(req)})
+    else
+      res.send(new Response(0,'您还没有下属，不需要访问该页面')))
+
 exports.subordinateIndexMobile = (req, res) ->
   return unless utils.authenticateUser(req,res)
   userId = req.session.userId

@@ -53,7 +53,7 @@
     }
     end = (numOfPage * page) - 1;
     return client.zrevrange("userid:" + userId + ":reportIds", start, end, function(err, reportIds) {
-      var contentArgs, dateArgs, j, len1, markArgs, reportId;
+      var content1Args, content2Args, content3Args, content4Args, contentArgs, dateArgs, j, len1, markArgs, reportId;
       if (err) {
         return utils.showDBError(callback, client);
       }
@@ -63,11 +63,19 @@
       dateArgs = ["userid:" + userId + ":reports"];
       contentArgs = ["userid:" + userId + ":reports"];
       markArgs = ["userid:" + userId + ":reports"];
+      content1Args = ["userid:" + userId + ":reports"];
+      content2Args = ["userid:" + userId + ":reports"];
+      content3Args = ["userid:" + userId + ":reports"];
+      content4Args = ["userid:" + userId + ":reports"];
       for (j = 0, len1 = reportIds.length; j < len1; j++) {
         reportId = reportIds[j];
         dateArgs.push(reportId + ":date");
         contentArgs.push(reportId + ":content");
         markArgs.push(reportId + ":mark");
+        content1Args.push(reportId + ":content1");
+        content2Args.push(reportId + ":content2");
+        content3Args.push(reportId + ":content3");
+        content4Args.push(reportId + ":content4");
       }
       return client.hmget(dateArgs, function(err, dates) {
         if (err) {
@@ -78,22 +86,46 @@
             return utils.showDBError(callback, client);
           }
           return client.hmget(markArgs, function(err, marks) {
-            var i, k, len, ref, response;
             if (err) {
               return utils.showDBError(callback, client);
             }
-            len = contents.length;
-            response = [];
-            for (i = k = 0, ref = len; 0 <= ref ? k < ref : k > ref; i = 0 <= ref ? ++k : --k) {
-              response.push({
-                id: reportIds[i],
-                date: dates[i],
-                content: contents[i],
-                mark: marks[i]
+            return client.hmget(content1Args, function(err, content1s) {
+              if (err) {
+                return utils.showDBError(callback, client);
+              }
+              return client.hmget(content2Args, function(err, content2s) {
+                if (err) {
+                  return utils.showDBError(callback, client);
+                }
+                return client.hmget(content3Args, function(err, content3s) {
+                  if (err) {
+                    return utils.showDBError(callback, client);
+                  }
+                  return client.hmget(content4Args, function(err, content4s) {
+                    var i, k, len, ref, response;
+                    if (err) {
+                      return utils.showDBError(callback, client);
+                    }
+                    len = contents.length;
+                    response = [];
+                    for (i = k = 0, ref = len; 0 <= ref ? k < ref : k > ref; i = 0 <= ref ? ++k : --k) {
+                      response.push({
+                        id: reportIds[i],
+                        date: dates[i],
+                        content: contents[i],
+                        mark: marks[i],
+                        content1: content1s[i],
+                        content2: content2s[i],
+                        content3: content3s[i],
+                        content4: content4s[i]
+                      });
+                    }
+                    client.quit();
+                    return callback(new Response(1, 'success', response));
+                  });
+                });
               });
-            }
-            client.quit();
-            return callback(new Response(1, 'success', response));
+            });
           });
         });
       });
