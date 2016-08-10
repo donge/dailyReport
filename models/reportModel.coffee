@@ -33,19 +33,23 @@ exports.getReports = (userId, page, numOfPage, callback) ->
 
     dateArgs = ["userid:#{userId}:reports"]
     contentArgs = ["userid:#{userId}:reports"]
+    markArgs = ["userid:#{userId}:reports"]
     for reportId in reportIds
       dateArgs.push("#{reportId}:date")
       contentArgs.push("#{reportId}:content")
+      markArgs.push("#{reportId}:mark")
     client.hmget(dateArgs, (err, dates)->
       return utils.showDBError(callback, client) if err
       client.hmget(contentArgs, (err, contents)->
         return utils.showDBError(callback, client) if err
-        len = contents.length
-        response = []
-        for i in [0...len]
-          response.push({id:reportIds[i], date:dates[i], content:contents[i]})
-        client.quit()
-        callback(new Response(1,'success',response)) )))
+        client.hmget(markArgs, (err, marks)->
+          return utils.showDBError(callback, client) if err
+          len = contents.length
+          response = []
+          for i in [0...len]
+            response.push({id:reportIds[i], date:dates[i], content:contents[i], mark:marks[i]})
+          client.quit()
+          callback(new Response(1,'success',response)) ))))
 
 exports.getReportNum = (userId, callback) ->
   client = utils.createClient()

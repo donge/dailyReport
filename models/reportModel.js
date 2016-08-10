@@ -53,7 +53,7 @@
     }
     end = (numOfPage * page) - 1;
     return client.zrevrange("userid:" + userId + ":reportIds", start, end, function(err, reportIds) {
-      var contentArgs, dateArgs, j, len1, reportId;
+      var contentArgs, dateArgs, j, len1, markArgs, reportId;
       if (err) {
         return utils.showDBError(callback, client);
       }
@@ -62,31 +62,39 @@
       }
       dateArgs = ["userid:" + userId + ":reports"];
       contentArgs = ["userid:" + userId + ":reports"];
+      markArgs = ["userid:" + userId + ":reports"];
       for (j = 0, len1 = reportIds.length; j < len1; j++) {
         reportId = reportIds[j];
         dateArgs.push(reportId + ":date");
         contentArgs.push(reportId + ":content");
+        markArgs.push(reportId + ":mark");
       }
       return client.hmget(dateArgs, function(err, dates) {
         if (err) {
           return utils.showDBError(callback, client);
         }
         return client.hmget(contentArgs, function(err, contents) {
-          var i, k, len, ref, response;
           if (err) {
             return utils.showDBError(callback, client);
           }
-          len = contents.length;
-          response = [];
-          for (i = k = 0, ref = len; 0 <= ref ? k < ref : k > ref; i = 0 <= ref ? ++k : --k) {
-            response.push({
-              id: reportIds[i],
-              date: dates[i],
-              content: contents[i]
-            });
-          }
-          client.quit();
-          return callback(new Response(1, 'success', response));
+          return client.hmget(markArgs, function(err, marks) {
+            var i, k, len, ref, response;
+            if (err) {
+              return utils.showDBError(callback, client);
+            }
+            len = contents.length;
+            response = [];
+            for (i = k = 0, ref = len; 0 <= ref ? k < ref : k > ref; i = 0 <= ref ? ++k : --k) {
+              response.push({
+                id: reportIds[i],
+                date: dates[i],
+                content: contents[i],
+                mark: marks[i]
+              });
+            }
+            client.quit();
+            return callback(new Response(1, 'success', response));
+          });
         });
       });
     });
