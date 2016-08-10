@@ -44,7 +44,7 @@ init = ->
     return unless reportvm.validDateTxt()
     dateStr = getDateStr($("#dateTxt").datepicker("getDate"))
     # data = {date:dateStr, content:editor.getContent()}
-    data = {date:dateStr, content:$("#content").val(), soure:$("#score").val(),
+    data = {date:dateStr, content:$("#content").val(), score:$("#score").val(),
     content1:$("#content1").val(), content2:$("#content2").val(),
     content3:$("#content3").val(), content4:$("#content4").val()}
     # console.log data

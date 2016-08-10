@@ -51,7 +51,7 @@
       data = {
         date: dateStr,
         content: $("#content").val(),
-        soure: $("#score").val(),
+        score: $("#score").val(),
         content1: $("#content1").val(),
         content2: $("#content2").val(),
         content3: $("#content3").val(),

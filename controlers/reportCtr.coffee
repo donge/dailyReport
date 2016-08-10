@@ -33,20 +33,21 @@ exports.write = (req, res) ->
   userId = req.session.userId
   dateStr = req.body.date
   content = req.body.content
-  #score = req.body.score
-  #content1 = req.body.content1
-  #content2 = req.body.content2
-  #content3 = req.body.content3
-  #content4 = req.body.content4
+  score = req.body.score
+  content1 = req.body.content1
+  content2 = req.body.content2
+  content3 = req.body.content3
+  content4 = req.body.content4
 
   try
+    #console.log "#{content}, #{score}, #{content1}, #{content2}, #{content3}, #{content4}"
     check(dateStr).notEmpty()
     check(content).notEmpty()
-    #check(score).notEmpty()
-    #check(content1).notEmpty()
-    #check(content2).notEmpty()
-    #check(content3).notEmpty()
-    #check(content4).notEmpty()
+    check(score).notEmpty()
+    check(content1).notEmpty()
+    check(content2).notEmpty()
+    check(content3).notEmpty()
+    check(content4).notEmpty()
     [year, months, date] = dateStr.split("-")
     #console.log "#{year}-#{months}-#{date}"
     #console.log "*******************************"
@@ -54,8 +55,8 @@ exports.write = (req, res) ->
     check(year).notNull().isNumeric().len(4,4)
     check(months).notNull().isNumeric().len(1,2)
     check(date).notNull().isNumeric().len(1,2)
-    #reportModel.createReport(userId, content, score, content1, content2, content3, content4, dateStr, (response)->
-    reportModel.createReport(userId, content, dateStr, (response)->
+    reportModel.createReport(userId, content, score, content1, content2, content3, content4, dateStr, (response)->
+    #reportModel.createReport(userId, content, dateStr, (response)->
       res.send(response))
   catch error
     res.send(new Response(0,"日期格式不正确或者内容为空"))

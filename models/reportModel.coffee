@@ -3,14 +3,14 @@
 userModel = require('./usersModel')
 utils = require("../utils")
 
-exports.createReport = (userId, content, dateStr, callback) ->
+exports.createReport = (userId, content, mark, content1, content2, content3, content4, dateStr, callback) ->
   client = utils.createClient()
   client.incr("next_report_id", (err, reportId)->
     return utils.showDBError(callback, client) if err
     score = getDateNumber(dateStr)
     client.zadd("userid:#{userId}:reportIds", score, reportId, (err, reply)->
       return utils.showDBError(callback, client) if err
-      client.hmset("userid:#{userId}:reports", "#{reportId}:date", dateStr, "#{reportId}:content", content, (err, reply)->
+      client.hmset("userid:#{userId}:reports", "#{reportId}:date", dateStr, "#{reportId}:content", content, "#{reportId}:mark", mark, "#{reportId}:content1", content1, "#{reportId}:content2", content2, "#{reportId}:content3", content3, "#{reportId}:content4", content4, (err, reply)->
         return utils.showDBError(callback, client) if err
         client.quit()
         callback(new Response(1,'success',reply)) )))

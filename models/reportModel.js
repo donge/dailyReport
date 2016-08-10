@@ -8,7 +8,7 @@
 
   utils = require("../utils");
 
-  exports.createReport = function(userId, content, dateStr, callback) {
+  exports.createReport = function(userId, content, mark, content1, content2, content3, content4, dateStr, callback) {
     var client;
     client = utils.createClient();
     return client.incr("next_report_id", function(err, reportId) {
@@ -21,7 +21,7 @@
         if (err) {
           return utils.showDBError(callback, client);
         }
-        return client.hmset("userid:" + userId + ":reports", reportId + ":date", dateStr, reportId + ":content", content, function(err, reply) {
+        return client.hmset("userid:" + userId + ":reports", reportId + ":date", dateStr, reportId + ":content", content, reportId + ":mark", mark, reportId + ":content1", content1, reportId + ":content2", content2, reportId + ":content3", content3, reportId + ":content4", content4, function(err, reply) {
           if (err) {
             return utils.showDBError(callback, client);
           }

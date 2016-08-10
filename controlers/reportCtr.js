@@ -59,21 +59,31 @@
   };
 
   exports.write = function(req, res) {
-    var content, date, dateStr, error, error1, months, ref, userId, year;
+    var content, content1, content2, content3, content4, date, dateStr, error, error1, months, ref, score, userId, year;
     if (!utils.authenticateUser(req, res)) {
       return;
     }
     userId = req.session.userId;
     dateStr = req.body.date;
     content = req.body.content;
+    score = req.body.score;
+    content1 = req.body.content1;
+    content2 = req.body.content2;
+    content3 = req.body.content3;
+    content4 = req.body.content4;
     try {
       check(dateStr).notEmpty();
       check(content).notEmpty();
+      check(score).notEmpty();
+      check(content1).notEmpty();
+      check(content2).notEmpty();
+      check(content3).notEmpty();
+      check(content4).notEmpty();
       ref = dateStr.split("-"), year = ref[0], months = ref[1], date = ref[2];
       check(year).notNull().isNumeric().len(4, 4);
       check(months).notNull().isNumeric().len(1, 2);
       check(date).notNull().isNumeric().len(1, 2);
-      return reportModel.createReport(userId, content, dateStr, function(response) {
+      return reportModel.createReport(userId, content, score, content1, content2, content3, content4, dateStr, function(response) {
         return res.send(response);
       });
     } catch (error1) {
