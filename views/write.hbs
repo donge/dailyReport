@@ -36,10 +36,24 @@
             <input id="dateTxt" type="text" required="required"
                    data-bind="value:dateTxt, valueUpdate:'keyup'"/></div>
         <div>
-            <label for="content">日报内容:</label>
-            <textarea id="content" rows="6" cols="30"  required="required"
+            <label for="content">我今天的工作内容:</label>
+            <textarea id="content" rows="3" cols="30"  required="required"
                       placeholder="Here is your daily report..."></textarea></div>
-
+            <label for="score">给自己工作状态的打分:</label>
+            <textarea id="score" rows="3" cols="30"  required="required"
+                      placeholder="your score..."></textarea></div>
+            <label for="content1">行得通的是:</label>
+            <textarea id="content1" rows="3" cols="30"  required="required"
+                      placeholder="Here is your daily report..."></textarea></div>
+            <label for="content2">有待提高的是:</label>
+            <textarea id="content2" rows="3" cols="30"  required="required"
+                      placeholder="Here is your daily report..."></textarea></div>
+            <label for="content3">明天的工作计划:</label>
+            <textarea id="content3" rows="3" cols="30"  required="required"
+                      placeholder="Here is your daily report..."></textarea></div>
+            <label for="content4">需要主管解决的问题:</label>
+            <textarea id="content4" rows="3" cols="30"  required="required"
+                      placeholder="Here is your daily report..."></textarea></div>
         <div><input id="reportSubmitBtn" type="button" value="发布" class="btn btn-primary"
                     data-bind="enable:validDateTxt()"/></div>
     </article>
@@ -48,6 +62,5 @@
 <script type="text/javascript" src='/js/knockout-2.2.1.js'></script>
 <script type="text/javascript" src='/js/validator-min.js'></script>
 <script type="text/javascript" src='/js/ReportModel.js'></script>
-<script type="text/javascript" src='/js/writeReport.js'></script>
-</body>
+<<script type="text/javascript" src='/js/writeReport.js'></script>
 </html>

@@ -33,15 +33,28 @@ exports.write = (req, res) ->
   userId = req.session.userId
   dateStr = req.body.date
   content = req.body.content
+  #score = req.body.score
+  #content1 = req.body.content1
+  #content2 = req.body.content2
+  #content3 = req.body.content3
+  #content4 = req.body.content4
 
   try
     check(dateStr).notEmpty()
     check(content).notEmpty()
+    #check(score).notEmpty()
+    #check(content1).notEmpty()
+    #check(content2).notEmpty()
+    #check(content3).notEmpty()
+    #check(content4).notEmpty()
     [year, months, date] = dateStr.split("-")
     #console.log "#{year}-#{months}-#{date}"
+    #console.log "*******************************"
+    #console.log "#{content}, #{score}, #{content1}, #{content2}, #{content3}, #{content4}"
     check(year).notNull().isNumeric().len(4,4)
     check(months).notNull().isNumeric().len(1,2)
     check(date).notNull().isNumeric().len(1,2)
+    #reportModel.createReport(userId, content, score, content1, content2, content3, content4, dateStr, (response)->
     reportModel.createReport(userId, content, dateStr, (response)->
       res.send(response))
   catch error

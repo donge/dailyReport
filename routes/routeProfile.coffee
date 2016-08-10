@@ -5,7 +5,7 @@ admin = require('../controlers/adminCtr')
 report = require('../controlers/reportCtr')
 installer = require('../controlers/installCtr')
 
-exports.createRutes = (app)->
+exports.createRoutes = (app)->
   app.get('/install', installer.install)
   app.get('/', report.index);
   app.get('/write', report.writeIndex);
