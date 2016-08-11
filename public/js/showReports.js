@@ -30,6 +30,28 @@
     return confirm(reportId);
   });
 
+  $("#reportList").on("click", "p.update", function() {
+    var data, reportId;
+    reportId = $(this).attr("reportId");
+    data = {
+      id: reportId,
+      date: $("#dateTxt").val(),
+      content: $("#content").val(),
+      score: $("#score").val(),
+      content1: $("#content1").val(),
+      content2: $("#content2").val(),
+      content3: $("#content3").val(),
+      content4: $("#content4").val()
+    };
+    console.log(data);
+    return ReportModel.updateReport(data, function(response) {
+      if (response.state === 0) {
+        return;
+      }
+      return window.location.href = "/show";
+    });
+  });
+
   deleteReport = function(reportId) {
     return ReportModel.deleteReport({
       reportId: reportId

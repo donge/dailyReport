@@ -13,6 +13,7 @@ exports.createRoutes = (app)->
   app.get('/password', user.passwordIndex);
   app.post('/password', user.changePassword);
   app.post('/delete', report.delete);
+  app.post('/update', report.update);
   app.get('/show', report.showIndex);
   app.post('/getsubordinateuseranddepartment', report.getSubordinateUserAndDepartment);
   app.get('/showsubordinate', report.showsubordinateIndex);

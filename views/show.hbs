@@ -35,6 +35,9 @@
 </div>
 <section class="container">
     <div class="title"> <i class="icon-book"></i><h1>日报内容</h1></div>
+
+
+
     <article id="reportList" >
         <ul class="unstyled" data-bind="foreach: reports">
             <li class="report">
@@ -45,9 +48,20 @@
                 待提高的<div class="content" data-bind="text: content2"></div>
                 明日计划<div class="content" data-bind="text: content3"></div>
                 需要帮助<div class="content" data-bind="text: content4"></div>
-                <!--<div class="content1" data-bind="text: content1"></div>-->
+
+               <!-- <div data-bind="visible: shouldShowMessage">-->
+               	<textarea id="dateTxt" rows="1" cols="30" required="required" placeholder="your score..." data-bind="text: date"></textarea>
+                今日日志<textarea id="content" rows="1" cols="30" required="required" placeholder="your score..." data-bind="text: content"></textarea>
+                今日自评<textarea id="score" rows="1" cols="30" required="required" placeholder="your score..." data-bind="text: mark"></textarea>
+                行得通的<textarea id="content1" rows="1" cols="30" required="required" placeholder="your score..." data-bind="text: content1"></textarea>
+                <textarea id="content2" rows="1" cols="30" required="required" placeholder="your score..." data-bind="text: content2"></textarea>
+                <textarea id="content3" rows="1" cols="30" required="required" placeholder="your score..." data-bind="text: content3"></textarea>
+                <textarea id="content4" rows="1" cols="30" required="required" placeholder="your score..." data-bind="text: content4"></textarea>
+              <!--  </div>-->
+
                 <!-- <p class="btn btn-link reply" data-bind="attr: {reportId: id}">reply</p> -->
-                <p class="btn btn-link delete" data-bind="attr: {reportId: id}">删除</p>
+                <p align="right" data-bind="text: time"></p>
+                <p class="btn btn-link delete" data-bind="attr: {reportId: id}">删除</p><p class="btn btn-link update" data-bind="attr: {reportId: id}">修改</p>
             </li>
         </ul>
         <div class="pagination" data-bind="if: pageNum() > 1">

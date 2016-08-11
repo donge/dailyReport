@@ -19,6 +19,21 @@ $("#reportList").on("click", "p.delete", ->
   reportId = $(this).attr("reportId")
   confirm(reportId))
 
+$("#reportList").on("click", "p.update", ->
+  reportId = $(this).attr("reportId")
+  #ReportModel.shouldShowMessage(false)
+
+
+  # data = {date:dateStr, content:editor.getContent()}
+  data = {id:reportId, date:$("#dateTxt").val(), content:$("#content").val(), score:$("#score").val(),
+  content1:$("#content1").val(), content2:$("#content2").val(),
+  content3:$("#content3").val(), content4:$("#content4").val()}
+  console.log data
+
+  ReportModel.updateReport(data, (response)->
+    return if response.state == 0
+    window.location.href = "/show"))
+
 
 deleteReport = (reportId)->
   ReportModel.deleteReport({reportId:reportId}, (response)->

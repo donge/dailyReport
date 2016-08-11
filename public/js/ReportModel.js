@@ -17,6 +17,12 @@
       }, "json");
     };
 
+    ReportModel.updateReport = function(data, callback) {
+      return $.post("/update", data, function(response) {
+        return callback(response);
+      }, "json");
+    };
+
     ReportModel.getReportNum = function(userId, callback) {
       return $.post("/getreportnum", {
         userId: userId

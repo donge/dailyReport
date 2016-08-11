@@ -3,6 +3,7 @@
 userModel = require('./usersModel')
 utils = require("../utils")
 
+# 创建Report
 exports.createReport = (userId, content, mark, content1, content2, content3, content4, dateStr, callback) ->
   client = utils.createClient()
   client.incr("next_report_id", (err, reportId)->
@@ -10,10 +11,19 @@ exports.createReport = (userId, content, mark, content1, content2, content3, con
     score = getDateNumber(dateStr)
     client.zadd("userid:#{userId}:reportIds", score, reportId, (err, reply)->
       return utils.showDBError(callback, client) if err
-      client.hmset("userid:#{userId}:reports", "#{reportId}:date", dateStr, "#{reportId}:content", content, "#{reportId}:mark", mark, "#{reportId}:content1", content1, "#{reportId}:content2", content2, "#{reportId}:content3", content3, "#{reportId}:content4", content4, (err, reply)->
+      client.hmset("userid:#{userId}:reports", "#{reportId}:date", dateStr, "#{reportId}:content", content, "#{reportId}:mark", mark, "#{reportId}:content1", content1, "#{reportId}:content2", content2, "#{reportId}:content3", content3, "#{reportId}:content4", content4, "#{reportId}:time", Date(), (err, reply)->
         return utils.showDBError(callback, client) if err
         client.quit()
         callback(new Response(1,'success',reply)) )))
+
+# 更新Report
+exports.updateReport = (reportId, userId, content, mark, content1, content2, content3, content4, dateStr, callback) ->
+  client = utils.createClient()
+  console.log reportId, userId, content, mark, content1, content2, content3, content4, dateStr
+  client.hmset("userid:#{userId}:reports", "#{reportId}:date", dateStr, "#{reportId}:content", content, "#{reportId}:mark", mark, "#{reportId}:content1", content1, "#{reportId}:content2", content2, "#{reportId}:content3", content3, "#{reportId}:content4", content4, "#{reportId}:time", Date(), (err, reply)->
+    return utils.showDBError(callback, client) if err
+    client.quit()
+    callback(new Response(1,'success',reply)) )
 
 #日期字符串变为数字，例如 “2013-4-27” 变为 20130427
 getDateNumber = (dateStr)->
@@ -32,6 +42,7 @@ exports.getReports = (userId, page, numOfPage, callback) ->
     return callback(new Response(1,'success',[])) if reportIds and reportIds.length == 0
 
     dateArgs = ["userid:#{userId}:reports"]
+    timeArgs = ["userid:#{userId}:reports"]
     contentArgs = ["userid:#{userId}:reports"]
     markArgs = ["userid:#{userId}:reports"]
     content1Args = ["userid:#{userId}:reports"]
@@ -40,6 +51,7 @@ exports.getReports = (userId, page, numOfPage, callback) ->
     content4Args = ["userid:#{userId}:reports"]
     for reportId in reportIds
       dateArgs.push("#{reportId}:date")
+      timeArgs.push("#{reportId}:time")
       contentArgs.push("#{reportId}:content")
       markArgs.push("#{reportId}:mark")
       content1Args.push("#{reportId}:content1")
@@ -48,24 +60,26 @@ exports.getReports = (userId, page, numOfPage, callback) ->
       content4Args.push("#{reportId}:content4")
     client.hmget(dateArgs, (err, dates)->
       return utils.showDBError(callback, client) if err
-      client.hmget(contentArgs, (err, contents)->
+      client.hmget(timeArgs, (err, times)->
         return utils.showDBError(callback, client) if err
-        client.hmget(markArgs, (err, marks)->
+        client.hmget(contentArgs, (err, contents)->
           return utils.showDBError(callback, client) if err
-          client.hmget(content1Args, (err, content1s)->
+          client.hmget(markArgs, (err, marks)->
             return utils.showDBError(callback, client) if err
-            client.hmget(content2Args, (err, content2s)->
+            client.hmget(content1Args, (err, content1s)->
               return utils.showDBError(callback, client) if err
-              client.hmget(content3Args, (err, content3s)->
+              client.hmget(content2Args, (err, content2s)->
                 return utils.showDBError(callback, client) if err
-                client.hmget(content4Args, (err, content4s)->
+                client.hmget(content3Args, (err, content3s)->
                   return utils.showDBError(callback, client) if err
-                  len = contents.length
-                  response = []
-                  for i in [0...len]
-                    response.push({id:reportIds[i], date:dates[i], content:contents[i], mark:marks[i], content1:content1s[i], content2:content2s[i], content3:content3s[i], content4:content4s[i]})
-                  client.quit()
-                  callback(new Response(1,'success',response)) ))))))))
+                  client.hmget(content4Args, (err, content4s)->
+                    return utils.showDBError(callback, client) if err
+                    len = contents.length
+                    response = []
+                    for i in [0...len]
+                      response.push({id:reportIds[i], date:dates[i], time:times[i], content:contents[i], mark:marks[i], content1:content1s[i], content2:content2s[i], content3:content3s[i], content4:content4s[i]})
+                    client.quit()
+                    callback(new Response(1,'success',response)) )))))))))
 
 exports.getReportNum = (userId, callback) ->
   client = utils.createClient()
@@ -78,7 +92,7 @@ exports.deleteReport = (userId, reportId, callback)->
   client = utils.createClient()
   client.zrem("userid:#{userId}:reportIds", reportId, (err, reply)->
     return utils.showDBError(callback, client) if err
-    client.hdel("userid:#{userId}:reports", "#{reportId}:date", "#{reportId}:content", (err, reply)->
+    client.hdel("userid:#{userId}:reports", "#{reportId}:date", "#{reportId}:content", "#{reportId}:score", "#{reportId}:content1", "#{reportId}:content2", "#{reportId}:content3", "#{reportId}:content4", "#{reportId}:time",(err, reply)->
       return utils.showDBError(callback, client) if err
       client.quit()
       callback(new Response(1,'success',reply))))
