@@ -31,6 +31,12 @@
       }, "json");
     };
 
+    ReportModel.getColleagueUserAndDepartment = function(callback) {
+      return $.post("/getcolleagueuseranddepartment", function(response) {
+        return callback(response);
+      }, "json");
+    };
+
     ReportModel.getReports = function(data, callback) {
       return $.post("/getreports", data, function(response) {
         return callback(response);

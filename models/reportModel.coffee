@@ -140,8 +140,37 @@ exports.getSubordinateUserAndDepartment = (userId, callback)->
           if department["children"]
             getUserDepartmentTreeData(department["children"])
       getUserDepartmentTreeData(departmentTree)
+      console.log departmentTree
       client.quit()
       callback(new Response(1,'success',departmentTree))))
+
+exports.getColleagueUserAndDepartment = (userId, callback)->
+  client = utils.createClient()
+  client.hgetall("users", (err, users)->
+    return utils.showDBError(callback, client) if err
+    [userObjs, userArray] = parseUsers(users)
+    # h该函数输出数据 [{id:1, name:"walter",pid:"3", departmentId:"7"}]
+    console.log userObjs[userId]
+    pid = userObjs[userId].pid if userObjs[userId].pid
+    console.log pid
+    console.log userArray
+
+    getColleagueUsers = (pid, userArray)->
+      colleagueArray = []
+      for user in userArray
+        if pid == user.pid
+          tmp =
+            id: "0"
+            label: "null"
+          tmp.id = user.id
+          tmp.label = user.name
+          colleagueArray.push(tmp)
+      colleagueArray
+
+    colleagueUsers = getColleagueUsers(pid, userArray)
+    console.log colleagueUsers
+    client.quit()
+    callback(new Response(1,'success',colleagueUsers)))
 
 # data 后台返回数据  	Object { 1:user_name="walter", 1:department_id="7", 1:superior_id:"3"}
  parseUsers = (data)->

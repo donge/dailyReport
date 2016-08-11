@@ -251,9 +251,49 @@
           return results;
         };
         getUserDepartmentTreeData(departmentTree);
+        console.log(departmentTree);
         client.quit();
         return callback(new Response(1, 'success', departmentTree));
       });
+    });
+  };
+
+  exports.getColleagueUserAndDepartment = function(userId, callback) {
+    var client;
+    client = utils.createClient();
+    return client.hgetall("users", function(err, users) {
+      var colleagueUsers, getColleagueUsers, pid, ref, userArray, userObjs;
+      if (err) {
+        return utils.showDBError(callback, client);
+      }
+      ref = parseUsers(users), userObjs = ref[0], userArray = ref[1];
+      console.log(userObjs[userId]);
+      if (userObjs[userId].pid) {
+        pid = userObjs[userId].pid;
+      }
+      console.log(pid);
+      console.log(userArray);
+      getColleagueUsers = function(pid, userArray) {
+        var colleagueArray, j, len1, tmp, user;
+        colleagueArray = [];
+        for (j = 0, len1 = userArray.length; j < len1; j++) {
+          user = userArray[j];
+          if (pid === user.pid) {
+            tmp = {
+              id: "0",
+              label: "null"
+            };
+            tmp.id = user.id;
+            tmp.label = user.name;
+            colleagueArray.push(tmp);
+          }
+        }
+        return colleagueArray;
+      };
+      colleagueUsers = getColleagueUsers(pid, userArray);
+      console.log(colleagueUsers);
+      client.quit();
+      return callback(new Response(1, 'success', colleagueUsers));
     });
   };
 

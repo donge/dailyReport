@@ -92,11 +92,7 @@ exports.showsubordinateIndex = (req, res) ->
 exports.showcolleagueIndex = (req, res) ->
   return unless utils.authenticateUser(req,res)
   userId = req.session.userId
-  userModel.hasSubordinate(userId, (result)->
-    if result
-      res.render("showsubordinate", {hasSubordinate:true, isLoginUser:utils.isLoginUser(req),isAdmin:utils.isAdmin(req)})
-    else
-      res.send(new Response(0,'您还没有下属，不需要访问该页面')))
+  res.render("showcolleague", {hasSubordinate:true, isLoginUser:utils.isLoginUser(req),isAdmin:utils.isAdmin(req)})
 
 exports.subordinateIndexMobile = (req, res) ->
   return unless utils.authenticateUser(req,res)
@@ -148,4 +144,10 @@ exports.getSubordinateUserAndDepartment = (req, res) ->
   return unless utils.authenticateUser(req,res)
   userId = req.session.userId
   reportModel.getSubordinateUserAndDepartment(userId, (response)->
+    res.send(response))
+
+exports.getColleagueUserAndDepartment = (req, res) ->
+  return unless utils.authenticateUser(req,res)
+  userId = req.session.userId
+  reportModel.getColleagueUserAndDepartment(userId, (response)->
     res.send(response))
