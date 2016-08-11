@@ -11,6 +11,7 @@ ShowReportsViewModel = ->
     pageNum)
 
   self.currentPage = ko.observable(1)
+  self.editable = ko.observable(false)
 
   self
 
@@ -34,6 +35,7 @@ window.initPageState = ->
   reportvm.reports([])
   reportvm.reportNum(0)
   reportvm.userId(null)
+  reportvm.editable(false)
 
 
 reportvm = new ShowReportsViewModel()

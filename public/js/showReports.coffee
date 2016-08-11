@@ -19,10 +19,12 @@ $("#reportList").on("click", "p.delete", ->
   reportId = $(this).attr("reportId")
   confirm(reportId))
 
+$("#reportList").on("click", "p.edit", ->
+  reportvm.editable(true))
+
 $("#reportList").on("click", "p.update", ->
   reportId = $(this).attr("reportId")
   #ReportModel.shouldShowMessage(false)
-
 
   # data = {date:dateStr, content:editor.getContent()}
   data = {id:reportId, date:$("#dateTxt").val(), content:$("#content").val(), score:$("#score").val(),

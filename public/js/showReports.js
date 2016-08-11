@@ -30,6 +30,10 @@
     return confirm(reportId);
   });
 
+  $("#reportList").on("click", "p.edit", function() {
+    return reportvm.editable(true);
+  });
+
   $("#reportList").on("click", "p.update", function() {
     var data, reportId;
     reportId = $(this).attr("reportId");

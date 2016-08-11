@@ -17,6 +17,7 @@
       return pageNum;
     });
     self.currentPage = ko.observable(1);
+    self.editable = ko.observable(false);
     return self;
   };
 
@@ -55,7 +56,8 @@
   window.initPageState = function() {
     reportvm.reports([]);
     reportvm.reportNum(0);
-    return reportvm.userId(null);
+    reportvm.userId(null);
+    return reportvm.editable(false);
   };
 
   reportvm = new ShowReportsViewModel();
