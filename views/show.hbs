@@ -41,12 +41,12 @@
             <li class="report">
                 <p class="date"><i class="icon-calendar"></i><span data-bind="text: date"></span></p>
                 <div data-bind="visible: !$parent.editable()">
-	                今日日志<div class="content" data-bind="html: content"></div>
-	                今日自评<div class="content" data-bind="text: mark"></div>
-	                行得通的<div class="content" data-bind="text: content1"></div>
-	                待提高的<div class="content" data-bind="text: content2"></div>
-	                明日计划<div class="content" data-bind="text: content3"></div>
-	                需要帮助<div class="content" data-bind="text: content4"></div>
+	                <h5>今日日志</h5><div class="content" data-bind="html: content"></div>
+	                <h5>今日自评</h5><div class="content" data-bind="text: mark"></div>
+	                <h5>行得通的</h5><div class="content" data-bind="text: content1"></div>
+	                <h5>待提高的</h5><div class="content" data-bind="text: content2"></div>
+	                <h5>明日计划</h5><div class="content" data-bind="text: content3"></div>
+	                <h5>需要帮助</h5><div class="content" data-bind="text: content4"></div>
 	                <p align="right" data-bind="text: time"></p>
 	              </div>
                 <div data-bind="visible: $parent.editable()">
@@ -56,10 +56,10 @@
                 待提高的<div><textarea id="content2" rows="1" cols="30" required="required" placeholder="your score..." data-bind="text: content2"></textarea></div>
                 明日计划<div><textarea id="content3" rows="1" cols="30" required="required" placeholder="your score..." data-bind="text: content3"></textarea></div>
                 需要帮助<div><textarea id="content4" rows="1" cols="30" required="required" placeholder="your score..." data-bind="text: content4"></textarea></div>
+                <textarea style="display:none" id="dateTxt" rows="1" cols="30" required="required" placeholder="your score..." data-bind="text: date"></textarea>
                 {{#if isAdmin}}
-                <textarea id="dateTxt" rows="1" cols="30" required="required" placeholder="your score..." data-bind="text: date"></textarea>
                 <p class="btn btn-link delete" data-bind="attr: {reportId: id}">删除</p>
-                 {{/if}}
+                {{/if}}
                 <p class="btn btn-link update" data-bind="attr: {reportId: id}">修改</p>
                 </div>
 
