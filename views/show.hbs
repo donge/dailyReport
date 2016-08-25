@@ -37,7 +37,6 @@
     <div class="title"> <i class="icon-book"></i><h1>日报内容</h1></div>
 
     <article id="reportList" >
-
         <ul class="unstyled" data-bind="foreach: reports">
             <li class="report">
                 <p class="date"><i class="icon-calendar"></i><span data-bind="text: date"></span></p>
@@ -57,8 +56,10 @@
                 待提高的<div><textarea id="content2" rows="1" cols="30" required="required" placeholder="your score..." data-bind="text: content2"></textarea></div>
                 明日计划<div><textarea id="content3" rows="1" cols="30" required="required" placeholder="your score..." data-bind="text: content3"></textarea></div>
                 需要帮助<div><textarea id="content4" rows="1" cols="30" required="required" placeholder="your score..." data-bind="text: content4"></textarea></div>
+                {{#if isAdmin}}
                 <textarea id="dateTxt" rows="1" cols="30" required="required" placeholder="your score..." data-bind="text: date"></textarea>
                 <p class="btn btn-link delete" data-bind="attr: {reportId: id}">删除</p>
+                 {{/if}}
                 <p class="btn btn-link update" data-bind="attr: {reportId: id}">修改</p>
                 </div>
 

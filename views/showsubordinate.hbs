@@ -16,7 +16,10 @@
     <ul class="nav">
         <li ><a href="/write">写日报</a></li>
         <li ><a href="/show">我的日报</a></li>
-        <li class="active"><a href="#">下属日报</a></li>
+        {{#if hasSubordinate}}
+        <li class="active"><a href="/showsubordinate">下属日报</a></li>
+        {{/if}}
+        <li ><a href="/showcolleague">同事日报</a></li>
         <li ><a href="/password">修改密码</a></li>
         {{#if isAdmin}}
         <li ><a href="/admin">管理员控制台</a></li>
@@ -25,6 +28,7 @@
         <li ><a href="/logout">退出</a></li>
         {{/if}}
     </ul>
+    <a class="logo" href="/" title="home page"><img src="/img/logo.png"></a>
 </header>
 <section id="userList">
     <div class="title"> <i class="icon-list"></i><h1>部门成员列表</h1></div>
