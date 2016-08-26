@@ -19,7 +19,13 @@ exports.isMobileClient = (req)->
 
 #如果用户登陆了，返回true，否则返回false
 exports.isLoginUser = (req)->
+  console.log("hello"+req.session.userId)
+  console.log("auth"+req.body.token)
+  if req.body.token
+    req.session.userId = req.body.userId
+    true
   req.session?.userId and true
+
 
 
 #如果用户是管理员，返回true，否则返回false ，并且转向登陆界面

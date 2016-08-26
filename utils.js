@@ -29,6 +29,12 @@
 
   exports.isLoginUser = function(req) {
     var ref;
+    console.log("hello" + req.session.userId);
+    console.log("auth" + req.body.token);
+    if (req.body.token) {
+      req.session.userId = req.body.userId;
+      true;
+    }
     return ((ref = req.session) != null ? ref.userId : void 0) && true;
   };
 

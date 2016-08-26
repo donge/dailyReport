@@ -85,7 +85,7 @@
             break;
           }
         }
-        return res.send(new Response(1, "success", 1));
+        return res.send(new Response(1, "success", crypto.createHash("sha1").update(userName).digest('hex')));
       });
     });
   };

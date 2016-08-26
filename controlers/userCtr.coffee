@@ -57,7 +57,9 @@ exports.login = (req, res) ->
         if id == userId
           req.session.isAdmin = 1
           break
-      res.send(new Response(1, "success", 1))))
+
+      #use username hash as a token-based auth
+      res.send(new Response(1, "success", crypto.createHash("sha1").update(userName).digest('hex')))))
       #return res.redirect("/show")))
 
 exports.logout = (req, res) ->

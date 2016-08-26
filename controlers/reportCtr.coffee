@@ -139,6 +139,7 @@ exports.subordinateIndexMobile = (req, res) ->
 
 
 exports.getReports = (req, res) ->
+  # !!! 删除登录，为了测试 ！！！
   return unless utils.authenticateUser(req,res)
 
   #第几页
