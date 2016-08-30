@@ -5,20 +5,20 @@ LoginViewModel = ->
 
   self.validUserName = ko.computed(->
     un = $.trim(self.userName())
-    un.length >= 2 and un.length<=25)
+    un.length >= 2 and un.length<=20)
 
   self.validPassword = ko.computed(->
     pw = $.trim(self.password())
-    pw.length >= 6 and pw.length<=25)
+    pw.length >= 6 and pw.length<=30)
 
   self.errorTip =  ko.observable('')
 
   self.getErrorTip = ->
     unless self.validUserName()
-      return self.errorTip("用户名长度为2-25个字符")
+      return self.errorTip("用户名长度为2-20个字符")
 
     unless self.validPassword()
-      return  self.errorTip("密码长度为7-25个字符")
+      return  self.errorTip("密码长度为6-30个字符")
 
     self.errorTip("")
 

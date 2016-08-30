@@ -60,6 +60,7 @@
 
   exports.write = function(req, res) {
     var content, content1, content2, content3, content4, date, dateStr, error, error1, months, ref, score, userId, year;
+    console.log("trigger here");
     if (!utils.authenticateUser(req, res)) {
       return;
     }

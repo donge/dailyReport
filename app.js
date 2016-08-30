@@ -12,7 +12,9 @@ var express = require('express')
   , session = require('express-session')
   , redisStore = require('connect-redis')(session)
   , appport = redisConfig.app.port
-  , sessiondbconfig = redisConfig.sessiondb;
+  , sessiondbconfig = redisConfig.sessiondb
+  , expressJWT = require('express-jwt')
+  , jwt = require('jsonwebtoken');
 
 var app = express();
 var redisClient = redis.createClient(redisConfig.db.port,redisConfig.db.host);
@@ -39,6 +41,8 @@ app.use(function(req, res, next) {
   next();
 });
 
+//JWT auth
+//app.use(expressJWT({secret: "copull"}).unless({path:["/login", "/", "/show", "/img", "/js"]}))
 
 app.use(express.static(path.join(__dirname, 'public')));
 

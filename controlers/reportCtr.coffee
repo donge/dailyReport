@@ -29,6 +29,7 @@ getDateStr = (date)->
   return "#{year}-#{month}-#{date}"
 
 exports.write = (req, res) ->
+  console.log("trigger here")
   return unless utils.authenticateUser(req,res)
   userId = req.session.userId
   dateStr = req.body.date

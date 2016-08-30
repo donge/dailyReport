@@ -10,20 +10,20 @@
     self.validUserName = ko.computed(function() {
       var un;
       un = $.trim(self.userName());
-      return un.length >= 2 && un.length <= 25;
+      return un.length >= 2 && un.length <= 20;
     });
     self.validPassword = ko.computed(function() {
       var pw;
       pw = $.trim(self.password());
-      return pw.length >= 6 && pw.length <= 25;
+      return pw.length >= 6 && pw.length <= 30;
     });
     self.errorTip = ko.observable('');
     self.getErrorTip = function() {
       if (!self.validUserName()) {
-        return self.errorTip("用户名长度为2-25个字符");
+        return self.errorTip("用户名长度为2-20个字符");
       }
       if (!self.validPassword()) {
-        return self.errorTip("密码长度为7-25个字符");
+        return self.errorTip("密码长度为6-30个字符");
       }
       return self.errorTip("");
     };

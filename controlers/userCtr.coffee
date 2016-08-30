@@ -3,6 +3,7 @@ check = require('validator').check
 utils = require('../utils')
 userModel = require('../models/usersModel')
 {Response} = require('../vo/Response')
+jwt = require('jsonwebtoken')
 
 exports.loginIndex = (req, res) ->
     res.render("login")
@@ -59,7 +60,13 @@ exports.login = (req, res) ->
           break
 
       #use username hash as a token-based auth
-      res.send(new Response(1, "success", crypto.createHash("sha1").update(userName).digest('hex')))))
+      token = jwt.sign({ username: userName}, "copull")
+      #res.send(new Response(1, "success", crypto.createHash("sha1").update(userName).digest('hex')))))
+      res.send(new Response(1, "success",
+      {
+          token: token,
+          userid: userId
+      }))))
       #return res.redirect("/show")))
 
 exports.logout = (req, res) ->
