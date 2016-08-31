@@ -44,6 +44,7 @@
             password: $.trim($("#password").val())
           };
           return Model.login(data, function(response) {
+            console.log(response);
             if (response.state === 0) {
               return;
             }
@@ -52,7 +53,7 @@
                 role: "dialog"
               });
             }
-            if (response.data === 1) {
+            if (response.message === "success") {
               return $.mobile.changePage("write");
             }
           });
@@ -103,13 +104,23 @@
       }
       writePageShowed = true;
       return $("#reportSubmitBtn").on("click", function() {
-        var contentStr, data, dateStr;
+        var content1Str, content2Str, content3Str, content4Str, contentStr, data, dateStr, scoreStr;
         if (isValidDate()) {
           dateStr = $.trim($("#dateTxt").val());
           contentStr = $.trim($("#content").val());
+          scoreStr = $.trim($("#score").val());
+          content1Str = $.trim($("#content1").val());
+          content2Str = $.trim($("#content2").val());
+          content3Str = $.trim($("#content3").val());
+          content4Str = $.trim($("#content4").val());
           data = {
             date: dateStr,
-            content: contentStr
+            content: contentStr,
+            score: scoreStr,
+            content1: content1Str,
+            content2: content2Str,
+            content3: content3Str,
+            content4: content4Str
           };
           return Model.createReport(data, function(response) {
             if (response.state === 0) {
@@ -195,7 +206,7 @@
     var pw, un;
     un = $.trim($("#userName").val());
     pw = $.trim($("#password").val());
-    return un.length >= 2 && un.length <= 25 && pw.length >= 7 && pw.length <= 25;
+    return un.length >= 2 && un.length <= 25 && pw.length >= 6 && pw.length <= 25;
   };
 
   showPasswordResultTip = function(message) {
@@ -213,14 +224,14 @@
     oldPassword = $.trim($("#oldPassword").val());
     password = $.trim($("#password").val());
     repassword = $.trim($("#repassword").val());
-    if (oldPassword.length < 7 || oldPassword.length > 25) {
+    if (oldPassword.length < 6 || oldPassword.length > 25) {
       result1 = false;
-      result2 = "密码长度是7-25个字符";
+      result2 = "密码长度是6-25个字符";
       return [result1, result2];
     }
-    if (password.length < 7 || password.length > 25) {
+    if (password.length < 6 || password.length > 25) {
       result1 = false;
-      result2 = "密码长度是7-25个字符";
+      result2 = "密码长度是6-25个字符";
       return [result1, result2];
     }
     if (password === oldPassword) {
@@ -306,7 +317,7 @@
       for (i = 0, len = ref.length; i < len; i++) {
         report = ref[i];
         reports.push(report);
-        reportHTML = "<li class='report' reportId='" + report.id + "'><p class='date'><i class='icon-calendar'></i><span>" + report.date + "</span></p> <div class='content'>" + report.content + "</div></li>";
+        reportHTML = "<li class='report' reportId='" + report.id + "'><p class='date'><i class='icon-calendar'></i><span>" + report.date + "</span></p> <div class='content'>今日日报: " + report.content + "</div><div class='content'>今日自评: " + report.mark + "</div><div class='content'>行得通的: " + report.content1 + "</div> <div class='content'>待提高的: " + report.content2 + "</div><div class='content'>明日计划: " + report.content3 + "</div><div class='content'>需要帮助: " + report.content4 + "</div></li>";
         $("#reportList ul").append(reportHTML);
         results.push(setTimeout(showPageination, 1000));
       }

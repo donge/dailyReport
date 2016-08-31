@@ -30,10 +30,11 @@ init = ->
       if isValidLoginUser()
          data = {userName: $.trim($("#userName").val()), password: $.trim($("#password").val())}
          Model.login(data, (response)->
+           console.log(response)
            return if response.state == 0
            if response.data == 0
              $.mobile.changePage("#loginErrorPage", { role: "dialog" })
-           if response.data == 1
+           if response.message == "success"
              $.mobile.changePage("write"))
       else
         $.mobile.changePage("#loginErrorPage", { role: "dialog" } )
@@ -83,7 +84,13 @@ init = ->
       if isValidDate()
         dateStr = $.trim($("#dateTxt").val())
         contentStr = $.trim($("#content").val())
-        data = {date:dateStr, content:contentStr}
+        scoreStr = $.trim($("#score").val())
+        content1Str = $.trim($("#content1").val())
+        content2Str = $.trim($("#content2").val())
+        content3Str = $.trim($("#content3").val())
+        content4Str = $.trim($("#content4").val())
+        data = {date:dateStr, content:contentStr, score:scoreStr,
+        content1:content1Str, content2:content2Str, content3:content3Str, content4:content4Str}
         Model.createReport(data, (response)->
           return if response.state == 0
           window.location.href = "/m/show")
@@ -158,7 +165,7 @@ init = ->
 isValidLoginUser = ->
   un = $.trim($("#userName").val())
   pw = $.trim($("#password").val())
-  un.length >= 2 and un.length<=25 and pw.length >= 7 and pw.length<=25
+  un.length >= 2 and un.length<=25 and pw.length >= 6 and pw.length<=25
 
 # change password ----------------------------------------------------------------
 showPasswordResultTip = (message)->
@@ -174,14 +181,14 @@ isValidPassword = ->
   password = $.trim($("#password").val())
   repassword = $.trim($("#repassword").val())
 
-  if oldPassword.length < 7 or oldPassword.length > 25
+  if oldPassword.length < 6 or oldPassword.length > 25
     result1 = false
-    result2 = "密码长度是7-25个字符"
+    result2 = "密码长度是6-25个字符"
     return [result1, result2]
 
-  if password.length < 7 or  password.length > 25
+  if password.length < 6 or  password.length > 25
     result1 = false
-    result2 = "密码长度是7-25个字符"
+    result2 = "密码长度是6-25个字符"
     return [result1, result2]
 
   if password == oldPassword
@@ -247,7 +254,8 @@ getReports = ()->
     for report in response.data
       reports.push(report)
       reportHTML = "<li class='report' reportId='#{report.id}'><p class='date'><i class='icon-calendar'></i><span>#{report.date}</span></p>
-                  <div class='content'>#{report.content}</div></li>"
+                  <div class='content'>今日日报: #{report.content}</div><div class='content'>今日自评: #{report.mark}</div><div class='content'>行得通的: #{report.content1}</div>
+                    <div class='content'>待提高的: #{report.content2}</div><div class='content'>明日计划: #{report.content3}</div><div class='content'>需要帮助: #{report.content4}</div></li>"
       $("#reportList ul").append(reportHTML)
       setTimeout(showPageination, 1000))
 

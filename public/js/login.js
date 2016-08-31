@@ -46,7 +46,7 @@
           if (response.data === 0) {
             return self.errorTip(response.message);
           }
-          if (response.data === 1) {
+          if (response.message === "success") {
             return location.href = "/write";
           }
         });

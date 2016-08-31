@@ -61,12 +61,13 @@ exports.login = (req, res) ->
 
       #use username hash as a token-based auth
       token = jwt.sign({ username: userName}, "copull")
-      #res.send(new Response(1, "success", crypto.createHash("sha1").update(userName).digest('hex')))))
+      #res.send(new Response(1, "success", 1))))
       res.send(new Response(1, "success",
       {
           token: token,
           userid: userId
       }))))
+
       #return res.redirect("/show")))
 
 exports.logout = (req, res) ->

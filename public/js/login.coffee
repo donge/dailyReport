@@ -36,7 +36,7 @@ LoginViewModel = ->
         return if response.state == 0
         if response.data == 0
           return self.errorTip(response.message)
-        if response.data == 1
+        if response.message == "success"
           location.href = "/write")
     else
       unless self.validUserName()
