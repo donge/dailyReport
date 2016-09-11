@@ -3,6 +3,7 @@ user = require('../controlers/userCtr')
 department = require('../controlers/departmentCtr')
 admin = require('../controlers/adminCtr')
 report = require('../controlers/reportCtr')
+message = require('../controlers/messageCtr')
 installer = require('../controlers/installCtr')
 
 exports.createRoutes = (app)->
@@ -10,6 +11,12 @@ exports.createRoutes = (app)->
   app.get('/', report.index);
   app.get('/write', report.writeIndex);
   app.post('/write', report.write);
+
+  app.post('/send', message.send);
+  app.post('/getmessages', message.getMessages);
+  app.post('/delmessage', message.delMessage);
+  app.get('/message', message.show);
+
   app.get('/password', user.passwordIndex);
   app.post('/password', user.changePassword);
   app.post('/delete', report.delete);
