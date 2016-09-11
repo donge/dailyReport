@@ -1,4 +1,3 @@
-
 class Response
   constructor: (@state, @message, @data=null) ->
 

@@ -18,7 +18,7 @@ ShowReportsViewModel = ->
 # 初始化 ---------------------------------------------------------------
 
 # 每页显示的日报条数
-NUMOFPAGE = 4
+NUMOFPAGE = 10
 
 getReports = (userId=null)->
   data = {page:reportvm.currentPage(), numOfPage:NUMOFPAGE, userId:userId}

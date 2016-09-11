@@ -34,37 +34,38 @@
     <p>确认要删除该日报吗？</p>
 </div>
 <section class="container">
-    <div class="title"> <i class="icon-book"></i><h1>日报内容</h1></div>
+    <div class="title"> <i class="icon-book"></i><h1>我的日报</h1></div>
 
     <article id="reportList" >
         <ul class="unstyled" data-bind="foreach: reports">
             <li class="report">
                 <p class="date"><i class="icon-calendar"></i><span data-bind="text: date"></span></p>
                 <div data-bind="visible: !$parent.editable()">
-	                <h5>今日日志</h5><div class="content" data-bind="html: content"></div>
-	                <h5>今日自评</h5><div class="content" data-bind="text: mark"></div>
-	                <h5>行得通的</h5><div class="content" data-bind="text: content1"></div>
-	                <h5>待提高的</h5><div class="content" data-bind="text: content2"></div>
-	                <h5>明日计划</h5><div class="content" data-bind="text: content3"></div>
-	                <h5>需要帮助</h5><div class="content" data-bind="text: content4"></div>
-	                <p align="right" data-bind="text: time"></p>
+                  <span class="label label-default">今日日报</span><div class="content" data-bind="html: content"></div>
+	                <span class="label label-inverse">今日自评</span><div class="content" data-bind="text: mark"></div>
+	                <span class="label label-success">行得通的</span><div class="content" data-bind="text: content1"></div>
+	                <span class="label label-warning">待提高的</span><div class="content" data-bind="text: content2"></div>
+	                <span class="label label-info">明日计划</span><div class="content" data-bind="text: content3"></div>
+	                <span class="label label-important">需要帮助</span><div class="content" data-bind="text: content4"></div>
+	                <p class="muted text-right" data-bind="text: time"></p>
 	              </div>
                 <div data-bind="visible: $parent.editable()">
-                今日日报<div><textarea id="content" rows="1" cols="30" required="required" placeholder="your score..." data-bind="text: content"></textarea></div>
-                今日自评<div><textarea id="score" rows="1" cols="30" required="required" placeholder="your score..." data-bind="text: mark"></textarea></div>
-                行得通的<div><textarea id="content1" rows="1" cols="30" required="required" placeholder="your score..." data-bind="text: content1"></textarea></div>
-                待提高的<div><textarea id="content2" rows="1" cols="30" required="required" placeholder="your score..." data-bind="text: content2"></textarea></div>
-                明日计划<div><textarea id="content3" rows="1" cols="30" required="required" placeholder="your score..." data-bind="text: content3"></textarea></div>
-                需要帮助<div><textarea id="content4" rows="1" cols="30" required="required" placeholder="your score..." data-bind="text: content4"></textarea></div>
-                <textarea style="display:none" id="dateTxt" rows="1" cols="30" required="required" placeholder="your score..." data-bind="text: date"></textarea>
-                {{#if isAdmin}}
-                <p class="btn btn-link delete" data-bind="attr: {reportId: id}">删除</p>
-                {{/if}}
-                <p class="btn btn-link update" data-bind="attr: {reportId: id}">修改</p>
+	                <span class="label label-default">今日日报</span><div><textarea class="input-xxlarge" id="content" rows="1" required="required" placeholder="your score..." data-bind="text: content"></textarea></div>
+	                <span class="label label-inverse">今日自评</span><div><textarea class="input-mini" id="score" rows="1" required="required" placeholder="your score..." data-bind="text: mark"></textarea></div>
+	                <span class="label label-success">行得通的</span><div><textarea class="input-xxlarge" id="content1" rows="1" required="required" placeholder="your score..." data-bind="text: content1"></textarea></div>
+	                <span class="label label-warning">待提高的</span><div><textarea class="input-xxlarge" id="content2" rows="1" required="required" placeholder="your score..." data-bind="text: content2"></textarea></div>
+	                <span class="label label-info">明日计划</span><div><textarea class="input-xxlarge" id="content3" rows="1" required="required" placeholder="your score..." data-bind="text: content3"></textarea></div>
+	                <span class="label label-important">需要帮助</span><div><textarea class="input-xxlarge" id="content4" rows="1" required="required" placeholder="your score..." data-bind="text: content4"></textarea></div>
+	                <textarea style="display:none" id="dateTxt" rows="1" cols="30" required="required" placeholder="your score..." data-bind="text: date"></textarea>
+
+	                <p class="btn btn-small update" data-bind="attr: {reportId: id}">保存修改</p>
+	                {{#if isAdmin}}
+	                <p class="btn btn-link delete" data-bind="attr: {reportId: id}">删除</p>
+	                {{/if}}
                 </div>
 
                 <!-- <p class="btn btn-link reply" data-bind="attr: {reportId: id}">reply</p> -->
-                <div data-bind="visible: !$parent.editable()"><p class="btn btn-link edit" data-bind="attr: {reportId: id}">快速编辑</p></div>
+                <div data-bind="visible: !$parent.editable()"><p class="btn btn-small edit" data-bind="attr: {reportId: id}">快速编辑</p></div>
             </li>
         </ul>
 

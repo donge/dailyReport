@@ -40,14 +40,13 @@
         <ul class="unstyled" data-bind="foreach: reports">
             <li class="report">
                 <p class="date"><i class="icon-calendar"></i><span data-bind="text: date"></span></p>
-                今日日志<div class="content" data-bind="html: content"></div>
-                今日自评<div class="content" data-bind="text: mark"></div>
-                行得通的<div class="content" data-bind="text: content1"></div>
-                待提高的<div class="content" data-bind="text: content2"></div>
-                明日计划<div class="content" data-bind="text: content3"></div>
-                需要帮助<div class="content" data-bind="text: content4"></div>
-                <!-- <p class="btn btn-link reply" data-bind="attr: {reportId: id}">reply</p> -->
-                <p align="right" data-bind="text: time"></p>
+                 <span class="label label-default">今日日报</span><div class="content" data-bind="html: content"></div>
+	                <span class="label label-inverse">今日自评</span><div class="content" data-bind="text: mark"></div>
+	                <span class="label label-success">行得通的</span><div class="content" data-bind="text: content1"></div>
+	                <span class="label label-warning">待提高的</span><div class="content" data-bind="text: content2"></div>
+	                <span class="label label-info">明日计划</span><div class="content" data-bind="text: content3"></div>
+	                <span class="label label-important">需要帮助</span><div class="content" data-bind="text: content4"></div>
+	                <p class="muted text-right" data-bind="text: time"></p>
             </li>
         </ul>
         <div class="pagination" data-bind="if: pageNum() > 1">
