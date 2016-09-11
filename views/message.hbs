@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>我的日报</title>
+    <link rel='stylesheet' href='/css/bootstrap.min.css' />
+    <link rel='stylesheet' href='/css/reportStyle.css' />
+    <link rel='stylesheet' href='/css/pepper-grinder/jquery-ui-1.10.3.custom.min.css' />
+    <script type="text/javascript" src='/js/jquery-1.9.1.min.js'></script>
+    <script type="text/javascript" src='/js/jquery-ui-1.10.3.custom.min.js'></script>
+    <script type="text/javascript" src='/js/bootstrap.min.js'></script>
+
+</head>
+<body class="myreports">
+<header class="navbar">
+    <a class="brand" href="/" title="home page">Daily Report</a>
+    <ul class="nav">
+        <li ><a href="/write">写日报</a></li>
+        <li ><a href="/show">我的日报</a></li>
+        {{#if hasSubordinate}}
+        <li ><a href="/showsubordinate">下属日报</a></li>
+        {{/if}}
+        <li ><a href="/showcolleague">同事日报</a></li>
+        <li ><a href="/password">修改密码</a></li>
+        <li class="active"><a href="/message">发送私信</a></li>
+        {{#if isAdmin}}
+        <li ><a href="/admin">管理员控制台</a></li>
+        {{/if}}
+        {{#if isLoginUser}}
+        <li ><a href="/logout">退出</a></li>
+        {{/if}}
+    </ul>
+    <a class="logo" href="/" title="home page"><img src="/img/logo.png"></a>
+</header>
+<div id="dialog-confirm" title="删除日报" style="display:none">
+    <p>确认要删除该消息吗？</p>
+</div>
+
+<section class="container">
+<div class="title"> <i class="icon-file"></i><h1>发送私信</h1></div>
+    <article id="reportCreation">
+        <div><label for="dateTxt">收件人:</label>
+            <select id="receiver" required="required">
+             <option>李风春</option>
+            </select>
+            <label for="content">消息内容:</label>
+            <textarea id="messageTxt" rows="3" cols="30"  required="required"
+                      placeholder="message you want to send..."></textarea>
+
+        <div><input id="messageSendBtn" type="button" value="发送" class="btn btn-primary"
+                    /></div>
+    </article>
+
+    <div class="title"> <i class="icon-book"></i><h1>我的私信</h1></div>
+    <article id="messageList" >
+        <ul class="unstyled" data-bind="foreach: messages">
+            <li class="report">
+                <p class="date"><i class="icon-calendar"></i> <span data-bind="text: time"></span></p>
+                <div>
+	                <div class="content" data-bind="text: message"></div>
+	                <!--<div class="content" data-bind="text: sender"></div>-->
+                {{#if isAdmin}}
+                	<p class="btn btn-link delete" data-bind="attr: {messageId: id}">删除</p>
+                {{/if}}
+        			</div>
+
+            </li>
+        </ul>
+    </article>
+</section>
+
+<script type="text/javascript" src='/js/knockout-2.2.1.js'></script>
+<script type="text/javascript" src='/js/MessageModel.js'></script>
+<script type="text/javascript" src='/js/message.js'></script>
+
+</body>
+</html>
