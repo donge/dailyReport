@@ -52,3 +52,52 @@ exports.getMessages = (receiverId, callback) ->
 
           client.quit()
           callback(new Response(1,'success',response))))))
+
+# 获取自己团队最上级管理员列表
+exports.getMsgSupervisor = (receiverId, callback) ->
+  userId = receiverId
+  client = utils.createClient()
+  client.hgetall("users", (err, users)->
+    return utils.showDBError(callback, client) if err
+    [userObjs, userArray] = parseUsers(users)
+
+    # TODO: hardcode 获取特定高级主管，如果没有，就是系统管理员
+    superId = isSupervisor(userObjs, userId, "李凤春")
+    if superId == 1
+      superId = isSupervisor(userObjs, userId, "厉少华")
+    console.log("isSupervisor " + superId)
+    client.quit()
+    callback(new Response(1,'success', superId)))
+
+isSupervisor = (userDict, userId, superName) ->
+  pid = userId
+  #console.log("super find")
+  for level in [1..4] # 4 最大级别
+    #console.log(userDict[pid]["name"])
+    if pid && userDict[pid]["name"] == superName
+      #console.log(userDict[pid]["name"])
+      return pid # 上级pid
+    if userDict[pid]["pid"]
+      pid = userDict[pid]["pid"]
+  return 1 # 管理员pid
+
+ #data 后台返回数据  	Object { 1:user_name="walter", 1:department_id="7", 1:superior_id:"3"}
+parseUsers = (data)->
+  resultObj = {} #Object { 1:{id:1, name:"walter",pid:"3", departmentId:"7"}}
+  for key, value of data
+    childOfKey = key.split(":")
+    userId = childOfKey[0]
+    resultObj[userId] ?= {id: userId}
+    if childOfKey[1] == "user_name"
+      resultObj[userId]["name"] = value
+    else if childOfKey[1] == "department_id"
+      resultObj[userId]["departmentId"] = value
+    else if childOfKey[1] == "superior_id"
+      resultObj[userId]["pid"] = value
+
+  result = []
+  for key2, value2 of resultObj
+    result.push(value2)
+
+  # h该函数输出数据 [{id:1, name:"walter",pid:"3", departmentId:"7"}]
+  [resultObj, result]

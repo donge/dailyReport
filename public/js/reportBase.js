@@ -21,7 +21,7 @@
     return self;
   };
 
-  NUMOFPAGE = 4;
+  NUMOFPAGE = 10;
 
   getReports = function(userId) {
     var data;

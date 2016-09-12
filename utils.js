@@ -29,7 +29,7 @@
 
   exports.isLoginUser = function(req) {
     var ref;
-    console.log("hello: " + req.session.userId);
+    console.log("userId: " + req.session.userId);
     console.log("auth: " + req.body.token);
     if (req.body.token) {
       req.session.userId = req.body.userId;

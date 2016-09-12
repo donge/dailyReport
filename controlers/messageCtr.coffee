@@ -15,7 +15,10 @@ showPage = (req, res, pageTitle, data=null) ->
   # data["hasSubordinate"] = false
   data["isLoginUser"] = utils.isLoginUser(req)
   data["isAdmin"] = utils.isAdmin(req)
-  messageModel.getMessages(userId, (response) ->
+  data["supervisor"] = "1"
+  messageModel.getMsgSupervisor(userId, (response) ->
+    console.log(response)
+    data["supervisor"] = response.data
     res.render(pageTitle, data))
 
 

@@ -30,7 +30,10 @@
     }
     data["isLoginUser"] = utils.isLoginUser(req);
     data["isAdmin"] = utils.isAdmin(req);
-    return messageModel.getMessages(userId, function(response) {
+    data["supervisor"] = "1";
+    return messageModel.getMsgSupervisor(userId, function(response) {
+      console.log(response);
+      data["supervisor"] = response.data;
       return res.render(pageTitle, data);
     });
   };
