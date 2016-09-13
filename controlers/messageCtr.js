@@ -28,9 +28,14 @@
     if (!data) {
       data = {};
     }
+    data["hasSubordinate"] = true;
     data["isLoginUser"] = utils.isLoginUser(req);
     data["isAdmin"] = utils.isAdmin(req);
-    data["supervisor"] = "1";
+    data["supervisor"] = {
+      id: '1',
+      name: 'admin',
+      departmentId: '1'
+    };
     return messageModel.getMsgSupervisor(userId, function(response) {
       console.log(response);
       data["supervisor"] = response.data;

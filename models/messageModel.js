@@ -115,7 +115,7 @@
       }
       console.log("isSupervisor " + superId);
       client.quit();
-      return callback(new Response(1, 'success', superId));
+      return callback(new Response(1, 'success', userObjs[superId]));
     });
   };
 

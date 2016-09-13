@@ -164,10 +164,9 @@ exports.getColleagueUserAndDepartment = (userId, callback)->
     return utils.showDBError(callback, client) if err
     [userObjs, userArray] = parseUsers(users)
     # h该函数输出数据 [{id:1, name:"walter",pid:"3", departmentId:"7"}]
-    console.log userObjs[userId]
+    #console.log userObjs[userId]
     pid = userObjs[userId].pid if userObjs[userId].pid
-    console.log pid
-    console.log userArray
+    #console.log userArray
 
     getColleagueUsers = (pid, userArray)->
       colleagueArray = []

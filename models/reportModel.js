@@ -288,12 +288,9 @@
         return utils.showDBError(callback, client);
       }
       ref = parseUsers(users), userObjs = ref[0], userArray = ref[1];
-      console.log(userObjs[userId]);
       if (userObjs[userId].pid) {
         pid = userObjs[userId].pid;
       }
-      console.log(pid);
-      console.log(userArray);
       getColleagueUsers = function(pid, userArray) {
         var colleagueArray, j, len1, tmp, user;
         colleagueArray = [];

@@ -12,10 +12,10 @@ exports.show = (req, res) ->
 showPage = (req, res, pageTitle, data=null) ->
   userId = req.session.userId
   data = {} unless data
-  # data["hasSubordinate"] = false
+  data["hasSubordinate"] = true
   data["isLoginUser"] = utils.isLoginUser(req)
   data["isAdmin"] = utils.isAdmin(req)
-  data["supervisor"] = "1"
+  data["supervisor"] = { id: '1', name: 'admin', departmentId: '1' } # example
   messageModel.getMsgSupervisor(userId, (response) ->
     console.log(response)
     data["supervisor"] = response.data

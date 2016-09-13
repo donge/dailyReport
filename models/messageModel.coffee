@@ -67,7 +67,7 @@ exports.getMsgSupervisor = (receiverId, callback) ->
       superId = isSupervisor(userObjs, userId, "厉少华")
     console.log("isSupervisor " + superId)
     client.quit()
-    callback(new Response(1,'success', superId)))
+    callback(new Response(1,'success', userObjs[superId])))
 
 isSupervisor = (userDict, userId, superName) ->
   pid = userId

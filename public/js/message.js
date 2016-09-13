@@ -55,10 +55,7 @@
 
   $("#messageSendBtn").click(function(event) {
     var data, receiverId;
-    receiverId = 1;
-    if ($("#receiver").val() === "李风春") {
-      receiverId = 1;
-    }
+    receiverId = $("#receiver").val();
     data = {
       receiver: receiverId,
       message: $("#messageTxt").val()

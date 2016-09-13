@@ -20,8 +20,8 @@
         <li ><a href="/showsubordinate">下属日报</a></li>
         {{/if}}
         <li ><a href="/showcolleague">同事日报</a></li>
-        <li ><a href="/password">修改密码</a></li>
         <li class="active"><a href="/message">发送私信</a></li>
+        <li ><a href="/password">修改密码</a></li>
         {{#if isAdmin}}
         <li ><a href="/admin">管理员控制台</a></li>
         {{/if}}
@@ -31,16 +31,16 @@
     </ul>
     <a class="logo" href="/" title="home page"><img src="/img/logo.png"></a>
 </header>
-<div id="dialog-confirm" title="删除日报" style="display:none">
+<div id="dialog-confirm" title="删除私信" style="display:none">
     <p>确认要删除该消息吗？</p>
 </div>
 
 <section class="container">
 <div class="title"> <i class="icon-file"></i><h1>发送私信</h1></div>
     <article id="reportCreation">
-        <div><label for="dateTxt">收件人:</label>
+        <div><label for="dateTxt">主管责任人:</label>
             <select id="receiver" required="required">
-             <option>{{supervisor}}</option>
+             <option value="{{supervisor.id}}">{{supervisor.name}}</option>
             </select>
             <label for="content">消息内容:</label>
             <textarea id="messageTxt" rows="3" cols="30"  required="required"
@@ -58,7 +58,7 @@
                 <div>
 	                <div class="content" data-bind="text: message"></div>
 	                <!--<div class="content" data-bind="text: sender"></div>-->
-                {{#if isAdmin}}
+                {{#if isLoginUser}}
                 	<p class="btn btn-link delete" data-bind="attr: {messageId: id}">删除</p>
                 {{/if}}
         			</div>
