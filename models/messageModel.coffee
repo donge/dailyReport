@@ -74,9 +74,11 @@ isSupervisor = (userDict, userId, superName) ->
   #console.log("super find")
   for level in [1..4] # 4 最大级别
     #console.log(userDict[pid]["name"])
-    if pid && userDict[pid]["name"] == superName
-      #console.log(userDict[pid]["name"])
-      return pid # 上级pid
+    if pid
+      if userDict[pid]["name"]
+        if userDict[pid]["name"] == superName
+          #console.log(userDict[pid]["name"])
+          return pid # 上级pid
     if userDict[pid]["pid"]
       pid = userDict[pid]["pid"]
   return 1 # 管理员pid

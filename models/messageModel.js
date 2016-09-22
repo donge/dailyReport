@@ -123,8 +123,12 @@
     var j, level, pid;
     pid = userId;
     for (level = j = 1; j <= 4; level = ++j) {
-      if (pid && userDict[pid]["name"] === superName) {
-        return pid;
+      if (pid) {
+        if (userDict[pid]["name"]) {
+          if (userDict[pid]["name"] === superName) {
+            return pid;
+          }
+        }
       }
       if (userDict[pid]["pid"]) {
         pid = userDict[pid]["pid"];
