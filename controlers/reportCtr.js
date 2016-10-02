@@ -54,7 +54,13 @@
     today = new Date();
     year = date.getFullYear();
     month = date.getMonth() + 1;
+    if (month < 10) {
+      month = "0" + month;
+    }
     date = date.getDate();
+    if (date < 10) {
+      date = "0" + date;
+    }
     return year + "-" + month + "-" + date;
   };
 
@@ -73,6 +79,7 @@
     content3 = req.body.content3;
     content4 = req.body.content4;
     try {
+      console.log(content + ", " + score + ", " + content1 + ", " + content2 + ", " + content3 + ", " + content4);
       check(dateStr).notEmpty();
       check(content).notEmpty();
       check(score).notEmpty();

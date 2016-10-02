@@ -24,8 +24,8 @@ init = ->
     #console.log "login page show"
 
     #防止事件多次注册，导致事件函数执行多遍
-    return if loginPageShowed
-    loginPageShowed = true
+    #return if loginPageShowed
+    #loginPageShowed = true
     $("#loginSubmitBtn").on("click", ->
       if isValidLoginUser()
          data = {userName: $.trim($("#userName").val()), password: $.trim($("#password").val())}
@@ -79,12 +79,19 @@ init = ->
     #alert $("#dateTxt").attr("value")
     #alert dateStr
     return if writePageShowed
+    #$('#dateTxt').val(Date());
     writePageShowed = true
+
     $("#reportSubmitBtn").on("click", ->
       if isValidDate()
         dateStr = $.trim($("#dateTxt").val())
         contentStr = $.trim($("#content").val())
-        scoreStr = $.trim($("#score").val())
+        score = 1 if $("#radio-choice-c").is(":checked")
+        score = 2 if $("#radio-choice-d").is(":checked")
+        score = 3 if $("#radio-choice-e").is(":checked")
+        score = 4 if $("#radio-choice-f").is(":checked")
+        score = 5 if $("#radio-choice-g").is(":checked")
+        scoreStr = $.trim(score)
         content1Str = $.trim($("#content1").val())
         content2Str = $.trim($("#content2").val())
         content3Str = $.trim($("#content3").val())

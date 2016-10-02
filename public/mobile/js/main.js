@@ -32,10 +32,6 @@
       });
     });
     $("body").on("pageshow", "#loginPage", function(e) {
-      if (loginPageShowed) {
-        return;
-      }
-      loginPageShowed = true;
       return $("#loginSubmitBtn").on("click", function() {
         var data;
         if (isValidLoginUser()) {
@@ -104,11 +100,26 @@
       }
       writePageShowed = true;
       return $("#reportSubmitBtn").on("click", function() {
-        var content1Str, content2Str, content3Str, content4Str, contentStr, data, dateStr, scoreStr;
+        var content1Str, content2Str, content3Str, content4Str, contentStr, data, dateStr, score, scoreStr;
         if (isValidDate()) {
           dateStr = $.trim($("#dateTxt").val());
           contentStr = $.trim($("#content").val());
-          scoreStr = $.trim($("#score").val());
+          if ($("#radio-choice-c").is(":checked")) {
+            score = 1;
+          }
+          if ($("#radio-choice-d").is(":checked")) {
+            score = 2;
+          }
+          if ($("#radio-choice-e").is(":checked")) {
+            score = 3;
+          }
+          if ($("#radio-choice-f").is(":checked")) {
+            score = 4;
+          }
+          if ($("#radio-choice-g").is(":checked")) {
+            score = 5;
+          }
+          scoreStr = $.trim(score);
           content1Str = $.trim($("#content1").val());
           content2Str = $.trim($("#content2").val());
           content3Str = $.trim($("#content3").val());

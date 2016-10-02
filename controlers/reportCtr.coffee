@@ -25,7 +25,9 @@ getDateStr = (date)->
   today = new Date()
   year = date.getFullYear()
   month = date.getMonth() + 1
+  month = "0" + month if month < 10
   date = date.getDate()
+  date = "0" + date if date < 10
   return "#{year}-#{month}-#{date}"
 
 exports.write = (req, res) ->
@@ -41,7 +43,7 @@ exports.write = (req, res) ->
   content4 = req.body.content4
 
   try
-    #console.log "#{content}, #{score}, #{content1}, #{content2}, #{content3}, #{content4}"
+    console.log "#{content}, #{score}, #{content1}, #{content2}, #{content3}, #{content4}"
     check(dateStr).notEmpty()
     check(content).notEmpty()
     check(score).notEmpty()

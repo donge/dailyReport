@@ -16,29 +16,35 @@
                       placeholder="Here is your daily report..."></textarea>
         </div>
         <div data-role="fieldcontain">
-            <label for="score">今日自评:</label>
-            <textarea id="score" rows="4" required="required"
-                      placeholder="Here is your daily report..."></textarea>
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+            <legend>今日自评:</legend>
+            <input type="radio" name="radio-choice-b" id="radio-choice-c" value="1">
+            <label for="radio-choice-c">1</label>
+            <input type="radio" name="radio-choice-b" id="radio-choice-d" value="2">
+            <label for="radio-choice-d">2</label>
+            <input type="radio" name="radio-choice-b" id="radio-choice-e" value="3" checked="checked">
+            <label for="radio-choice-e">3</label>
+            <input type="radio" name="radio-choice-b" id="radio-choice-f" value="4">
+            <label for="radio-choice-f">4</label>
+            <input type="radio" name="radio-choice-b" id="radio-choice-g" value="5">
+            <label for="radio-choice-g">5</label>
+          </fieldset>
         </div>
         <div data-role="fieldcontain">
             <label for="content1">行得通的:</label>
-            <textarea id="content1" rows="4" required="required"
-                      placeholder="Here is your daily report..."></textarea>
+            <input type="text" name="text-basic" id="content1" required="required" placeholder="seems work..." value="">
         </div>
         <div data-role="fieldcontain">
             <label for="content2">待提高的:</label>
-            <textarea id="content2" rows="4" required="required"
-                      placeholder="Here is your daily report..."></textarea>
+            <input type="text" name="text-basic" id="content2" required="required" placeholder="need improve..." value="">
         </div>
         <div data-role="fieldcontain">
             <label for="content3">明日计划:</label>
-            <textarea id="content3" rows="4" required="required"
-                      placeholder="Here is your daily report..."></textarea>
+            <input type="text" name="text-basic" id="content3" required="required" placeholder="plan for tomorrow..." value="">
         </div>
         <div data-role="fieldcontain">
             <label for="content4">需要帮助:</label>
-            <textarea id="content4" rows="4" required="required"
-                      placeholder="Here is your daily report..."></textarea>
+            <input type="text" name="text-basic" id="content4" required="required" placeholder="need help..." value="">
         </div>
         <div data-role="fieldcontain">
             <input id="reportSubmitBtn" type="button" value="发布" class="btn btn-primary"
@@ -52,7 +58,7 @@
             <ul>
                 <li><a href="#" data-icon="edit" class="ui-btn-active">写日报</a></li>
                 <li><a href="/m/show" data-icon="bars">我的日报</a></li>
-                {{#if hasSubordinate}}
+                {{#if hasSubordinate1 }}
                 <li><a href="/m/showsubordinate" data-icon="grid">下属日报</a></li>
                 {{/if}}
             </ul>
