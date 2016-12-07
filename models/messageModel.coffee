@@ -65,6 +65,8 @@ exports.getMsgSupervisor = (receiverId, callback) ->
     superId = isSupervisor(userObjs, userId, "李凤春")
     if superId == 1
       superId = isSupervisor(userObjs, userId, "厉少华")
+      if superId == 1
+        superId = isSupervisor(userObjs, userId, "潘高煊")
     console.log("isSupervisor " + superId)
     client.quit()
     callback(new Response(1,'success', userObjs[superId])))
