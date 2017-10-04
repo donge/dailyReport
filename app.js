@@ -23,7 +23,7 @@ redisClient.on("error", function(err) {
 });
 
 // all environments
-app.set('port', appport || process.env.PORT || 3000);
+app.set('port', appport || process.env.PORT || 4000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'hbs');
 app.use(require('morgan')('dev'));

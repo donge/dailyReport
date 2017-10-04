@@ -1,26 +1,25 @@
-
 {Response} = require('../vo/Response')
 userModel = require('./usersModel')
 utils = require("../utils")
 
 # 创建Report
-exports.createReport = (userId, content, mark, content1, content2, content3, content4, dateStr, callback) ->
+exports.createReport = (userId, deal, marks, back_marks, content1, content3, content4, cc, input, follow, meet, dateStr, callback) ->
   client = utils.createClient()
   client.incr("next_report_id", (err, reportId)->
     return utils.showDBError(callback, client) if err
     score = getDateNumber(dateStr)
     client.zadd("userid:#{userId}:reportIds", score, reportId, (err, reply)->
       return utils.showDBError(callback, client) if err
-      client.hmset("userid:#{userId}:reports", "#{reportId}:date", dateStr, "#{reportId}:content", content, "#{reportId}:mark", mark, "#{reportId}:content1", content1, "#{reportId}:content2", content2, "#{reportId}:content3", content3, "#{reportId}:content4", content4, "#{reportId}:time", Date(), (err, reply)->
+      client.hmset("userid:#{userId}:reports", "#{reportId}:date", dateStr, "#{reportId}:deal", deal, "#{reportId}:marks", marks, "#{reportId}:back_marks", back_marks, "#{reportId}:content1", content1, "#{reportId}:content3", content3, "#{reportId}:content4", content4, "#{reportId}:cc", cc, "#{reportId}:input", input, "#{reportId}:follow", follow, "#{reportId}:meet", meet, "#{reportId}:time", Date(), (err, reply)->
         return utils.showDBError(callback, client) if err
         client.quit()
         callback(new Response(1,'success',reply)) )))
 
 # 更新Report
-exports.updateReport = (reportId, userId, content, mark, content1, content2, content3, content4, dateStr, callback) ->
+exports.updateReport = (reportId, userId, deal, marks, back_marks, content1, content3, content4, cc, input, follow, meet, dateStr, callback) ->
   client = utils.createClient()
-  console.log reportId, userId, content, mark, content1, content2, content3, content4, dateStr
-  client.hmset("userid:#{userId}:reports", "#{reportId}:date", dateStr, "#{reportId}:content", content, "#{reportId}:mark", mark, "#{reportId}:content1", content1, "#{reportId}:content2", content2, "#{reportId}:content3", content3, "#{reportId}:content4", content4, "#{reportId}:time", Date(), (err, reply)->
+  console.log reportId, userId, deal, marks, back_marks, content1, content3, content4, cc, input, follow, meet, dateStr
+  client.hmset("userid:#{userId}:reports", "#{reportId}:date", dateStr, "#{reportId}:deal", deal, "#{reportId}:marks", marks, "#{reportId}:back_marks", back_marks, "#{reportId}:content1", content1, "#{reportId}:content3", content3, "#{reportId}:content4", content4, "#{reportId}:cc", cc, "#{reportId}:input", input, "#{reportId}:follow", follow, "#{reportId}:meet", meet, "#{reportId}:time", Date(), (err, reply)->
     return utils.showDBError(callback, client) if err
     client.quit()
     callback(new Response(1,'success',reply)) )
@@ -43,43 +42,61 @@ exports.getReports = (userId, page, numOfPage, callback) ->
 
     dateArgs = ["userid:#{userId}:reports"]
     timeArgs = ["userid:#{userId}:reports"]
-    contentArgs = ["userid:#{userId}:reports"]
-    markArgs = ["userid:#{userId}:reports"]
+    dealArgs = ["userid:#{userId}:reports"]
+    marksArgs = ["userid:#{userId}:reports"]
+    back_marksArgs = ["userid:#{userId}:reports"]
     content1Args = ["userid:#{userId}:reports"]
-    content2Args = ["userid:#{userId}:reports"]
     content3Args = ["userid:#{userId}:reports"]
     content4Args = ["userid:#{userId}:reports"]
+    ccArgs = ["userid:#{userId}:reports"]
+    inputArgs = ["userid:#{userId}:reports"]
+    followArgs = ["userid:#{userId}:reports"]
+    meetArgs = ["userid:#{userId}:reports"]
+
     for reportId in reportIds
       dateArgs.push("#{reportId}:date")
       timeArgs.push("#{reportId}:time")
-      contentArgs.push("#{reportId}:content")
-      markArgs.push("#{reportId}:mark")
+      dealArgs.push("#{reportId}:deal")
+      marksArgs.push("#{reportId}:marks")
+      back_marksArgs.push("#{reportId}:back_marks")
       content1Args.push("#{reportId}:content1")
-      content2Args.push("#{reportId}:content2")
       content3Args.push("#{reportId}:content3")
       content4Args.push("#{reportId}:content4")
+      ccArgs.push("#{reportId}:cc")
+      inputArgs.push("#{reportId}:input")
+      followArgs.push("#{reportId}:follow")
+      meetArgs.push("#{reportId}:meet")
     client.hmget(dateArgs, (err, dates)->
       return utils.showDBError(callback, client) if err
       client.hmget(timeArgs, (err, times)->
         return utils.showDBError(callback, client) if err
-        client.hmget(contentArgs, (err, contents)->
+        client.hmget(dealArgs, (err, deals)->
           return utils.showDBError(callback, client) if err
-          client.hmget(markArgs, (err, marks)->
+          client.hmget(marksArgs, (err, markss)->
             return utils.showDBError(callback, client) if err
-            client.hmget(content1Args, (err, content1s)->
+            client.hmget(back_marksArgs, (err, back_markss)->
               return utils.showDBError(callback, client) if err
-              client.hmget(content2Args, (err, content2s)->
+              client.hmget(content1Args, (err, content1s)->
                 return utils.showDBError(callback, client) if err
                 client.hmget(content3Args, (err, content3s)->
                   return utils.showDBError(callback, client) if err
                   client.hmget(content4Args, (err, content4s)->
                     return utils.showDBError(callback, client) if err
-                    len = contents.length
-                    response = []
-                    for i in [0...len]
-                      response.push({id:reportIds[i], date:dates[i], time:times[i], content:contents[i], mark:marks[i], content1:content1s[i], content2:content2s[i], content3:content3s[i], content4:content4s[i]})
-                    client.quit()
-                    callback(new Response(1,'success',response)) )))))))))
+                    client.hmget(ccArgs, (err, ccs)->
+                      return utils.showDBError(callback, client) if err
+                      client.hmget(inputArgs, (err, inputs)->
+                        return utils.showDBError(callback, client) if err
+                        client.hmget(followArgs, (err, follows)->
+                          return utils.showDBError(callback, client) if err
+                          client.hmget(meetArgs, (err, meets)->
+                            return utils.showDBError(callback, client) if err
+                            len = deals.length
+                            response = []
+                            for i in [0...len]
+                              response.push({id:reportIds[i], date:dates[i], time:times[i], deal:deals[i], marks:markss[i],  back_marks:back_markss[i], content1:content1s[i], content3:content3s[i], content4:content4s[i], cc:ccs[i], input:inputs[i], follow:follows[i], meet:meets[i]})
+                            client.quit()
+                            callback(new Response(1,'success',response)))))))))))))))
+
 
 exports.getReportNum = (userId, callback) ->
   client = utils.createClient()
@@ -92,7 +109,7 @@ exports.deleteReport = (userId, reportId, callback)->
   client = utils.createClient()
   client.zrem("userid:#{userId}:reportIds", reportId, (err, reply)->
     return utils.showDBError(callback, client) if err
-    client.hdel("userid:#{userId}:reports", "#{reportId}:date", "#{reportId}:content", "#{reportId}:score", "#{reportId}:content1", "#{reportId}:content2", "#{reportId}:content3", "#{reportId}:content4", "#{reportId}:time",(err, reply)->
+    client.hdel("userid:#{userId}:reports", "#{reportId}:date", "#{reportId}:content", "#{reportId}:score", "#{reportId}:content1", "#{reportId}:content2", "#{reportId}:content3", "#{reportId}:content4", "#{reportId}:cc","#{reportId}:time",(err, reply)->
       return utils.showDBError(callback, client) if err
       client.quit()
       callback(new Response(1,'success',reply))))
@@ -239,6 +256,7 @@ getDepartTreeData = (departs, allObjs)->
       if value.pid == node.id
         node.children = [] unless node.children
         childNode = {label:value.name, id:value.id, node:1}
+        console.log value.id
         node.children.push(childNode)
         findChidren(childNode, departs)
 

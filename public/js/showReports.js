@@ -40,12 +40,16 @@
     data = {
       id: reportId,
       date: $("#dateTxt").val(),
-      content: $("#content").val(),
-      score: $("#score").val(),
+      deal: $("#deal").val(),
+      marks: $("#marks").val(),
+      back_marks: $("#back_marks").val(),
       content1: $("#content1").val(),
-      content2: $("#content2").val(),
       content3: $("#content3").val(),
-      content4: $("#content4").val()
+      content4: $("#content4").val(),
+      cc: $("#cc").val(),
+      input: $("#input").val(),
+      follow: $("#follow").val(),
+      meet: $("#meet").val()
     };
     console.log(data);
     return ReportModel.updateReport(data, function(response) {

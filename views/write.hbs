@@ -32,37 +32,52 @@
     </ul>
     <a class="logo" href="/" title="home page"><img src="/img/logo.png"></a>
 </header>
+
 <section class="container">
     <div class="title"> <i class="icon-file"></i><h1>写日报</h1></div>
     <article id="reportCreation">
-        <div><label for="dateTxt">日期:</label>
+
+      <div><label for="dateTxt">日期:</label>
             <input id="dateTxt" type="text" required="required"
                    data-bind="value:dateTxt, valueUpdate:'keyup'"/></div>
-            <label for="content">我今天的工作内容:</label>
-            <textarea id="content" rows="3" cols="30"  required="required"
-                      placeholder="Here is your daily report..."></textarea>
-            <label for="score">给自己工作状态的打分:</label>
-            <select id="score" required="required">
-             <option>1</option>
-             <option>2</option>
-             <option>3</option>
-             <option>4</option>
-             <option>5</option>
+
+            <div class="title"> <i class="icon-file"></i>Daily Activities</div>
+
+            <label for="cc"><span class="label label-success">有效CC (通)</span></label><input id="cc" type="number" required="required" value="0"></input>
+            <label for="input"><span class="label label-success">录入Lists (个)</span></label><input id="input" type="number"  required="required" value="0"></input>
+            <label for="follow"><span class="label label-success">Follow Call (通)</span></label><input id="follow" type="number"  required="required" value="0"></input>
+            <label for="meet"><span class="label label-success">约见客户 (个)</span></label><input id="meet" type="number"  required="required" value="0"></input>
+
+            <div class="title"> <i class="icon-file"></i>Gains and Grows</div>
+            <label for="deal"><span class="label label-inverse">今日成交 (按Ctrl多选)</span></label>
+            <select id="deal" multiple required="required">
+             <option>暂无</option>
+             <option>固收</option>
+             <option>亿百润</option>
+             <option>股权</option>
+             <option>二级市场</option>
+             <option>美元产品</option>
+             <option>保险</option>
+             <option>其他</option>
             </select>
-            <label for="content1">行得通的是:</label>
-            <textarea id="content1" rows="2" cols="30"  required="required"
-                      placeholder="seems working..."></textarea>
-            <label for="content2">有待提高的是:</label>
-            <textarea id="content2" rows="2" cols="30"  required="required"
-                      placeholder="to improve..."></textarea>
-            <label for="content3">明天的工作计划:</label>
-            <textarea id="content3" rows="3" cols="30"  required="required"
-                      placeholder="Here is your tomorrow plan..."></textarea>
-            <label for="content4">需要主管解决的问题:</label>
-            <textarea id="content4" rows="2" cols="30"  required="required"
-                      placeholder="need help on..."></textarea>
-        <div><input id="reportSubmitBtn" type="button" value="发布" class="btn btn-primary"
-                    data-bind="enable:validDateTxt()"/></div>
+            <label for="marks"><span class="label label-inverse">折前 (万)</span></label>
+            <input id="marks" type="number"  required="required" value="0"></input>
+            <label for="back_marks"><span class="label label-inverse">折标 (万)</span>
+            </label><input id="back_marks" type="number" required="required" value="0"></input>
+
+            <label for="content1"><span class="label label-warning">反思提高</span></label>
+            <textarea id="content1" rows="2" required="required"
+                      placeholder="不得为空"></textarea>
+
+<div class="title"> <i class="icon-file"></i>Plan and Support</div>
+<label for="content3"><span class="label label-info">明日计划</span></label>
+            <textarea id="content3" rows="2" required="required"
+                      placeholder="不得为空"></textarea>
+
+            <label for="content4"><span class="label label-important">需要帮助</span></label>
+            <textarea id="content4" rows="2" placeholder="可以为空"></textarea>
+</div>
+        <div><input id="reportSubmitBtn" type="button" value="发布" class="btn btn-primary" data-bind="enable:validDateTxt()"/></div>
     </article>
 </section>
 

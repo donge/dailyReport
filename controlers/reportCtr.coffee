@@ -35,30 +35,39 @@ exports.write = (req, res) ->
   return unless utils.authenticateUser(req,res)
   userId = req.session.userId
   dateStr = req.body.date
-  content = req.body.content
-  score = req.body.score
+  deal = req.body.deal
+  marks = req.body.marks
+  back_marks = req.body.back_marks
   content1 = req.body.content1
-  content2 = req.body.content2
   content3 = req.body.content3
   content4 = req.body.content4
+  cc = req.body.cc
+  input = req.body.input
+  follow = req.body.follow
+  meet = req.body.meet
 
   try
-    console.log "#{content}, #{score}, #{content1}, #{content2}, #{content3}, #{content4}"
+    console.log "#{deal}, #{marks}, #{back_marks},#{content1}, #{content3}, #{content4}, #{cc}, #{input}, #{follow}, #{meet}"
     check(dateStr).notEmpty()
-    check(content).notEmpty()
-    check(score).notEmpty()
+    check(deal).notEmpty()
+    check(marks).notEmpty()
+    check(back_marks).notEmpty()
     check(content1).notEmpty()
-    check(content2).notEmpty()
     check(content3).notEmpty()
     check(content4).notEmpty()
+    check(cc).notEmpty()
+    check(input).notEmpty()
+    check(follow).notEmpty()
+    check(meet).notEmpty()
+
     [year, months, date] = dateStr.split("-")
     #console.log "#{year}-#{months}-#{date}"
     #console.log "*******************************"
-    #console.log "#{content}, #{score}, #{content1}, #{content2}, #{content3}, #{content4}"
+    #console.log "#{content}, #{marks}, #{content1}, #{content2}, #{content3}, #{content4}"
     check(year).notNull().isNumeric().len(4,4)
     check(months).notNull().isNumeric().len(1,2)
     check(date).notNull().isNumeric().len(1,2)
-    reportModel.createReport(userId, content, score, content1, content2, content3, content4, dateStr, (response)->
+    reportModel.createReport(userId, deal, marks, back_marks, content1, content3, content4, cc, input, follow, meet, dateStr, (response)->
     #reportModel.createReport(userId, content, dateStr, (response)->
       res.send(response))
   catch error
@@ -69,30 +78,39 @@ exports.update = (req, res) ->
   userId = req.session.userId
   reportId = req.body.id
   dateStr = req.body.date
-  content = req.body.content
-  score = req.body.score
+  deal = req.body.deal
+  marks = req.body.marks
+  back_marks = req.body.back_marks
+  back_marks = req.body.back_marks
   content1 = req.body.content1
-  content2 = req.body.content2
   content3 = req.body.content3
   content4 = req.body.content4
+  cc = req.body.cc
+  input = req.body.input
+  follow = req.body.follow
+  meet = req.body.meet
 
   try
-    #console.log "#{content}, #{score}, #{content1}, #{content2}, #{content3}, #{content4}"
+    #console.log "#{content}, #{marks}, #{content1}, #{content2}, #{content3}, #{content4}"
     check(dateStr).notEmpty()
-    check(content).notEmpty()
-    check(score).notEmpty()
+    check(deal).notEmpty()
+    check(marks).notEmpty()
+    check(back_marks).notEmpty()
     check(content1).notEmpty()
-    check(content2).notEmpty()
     check(content3).notEmpty()
     check(content4).notEmpty()
+    check(cc).notEmpty()
+    check(input).notEmpty()
+    check(follow).notEmpty()
+    check(meet).notEmpty()
     [year, months, date] = dateStr.split("-")
     #console.log "#{year}-#{months}-#{date}"
     #console.log "*******************************"
-    #console.log "#{content}, #{score}, #{content1}, #{content2}, #{content3}, #{content4}"
+    #console.log "#{content}, #{marks}, #{content1}, #{content2}, #{content3}, #{content4}"
     check(year).notNull().isNumeric().len(4,4)
     check(months).notNull().isNumeric().len(1,2)
     check(date).notNull().isNumeric().len(1,2)
-    reportModel.updateReport(reportId, userId, content, score, content1, content2, content3, content4, dateStr, (response)->
+    reportModel.updateReport(reportId, userId, deal, marks, back_marks, content1, content3, content4, cc, input, follow, meet, dateStr, (response)->
     #reportModel.createReport(userId, content, dateStr, (response)->
       res.send(response))
   catch error

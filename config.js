@@ -15,7 +15,7 @@
   };
 
   exports.app = {
-    port: 3000
+    port: 4000
   };
 
 }).call(this);

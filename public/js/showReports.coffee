@@ -27,9 +27,9 @@ $("#reportList").on("click", "p.update", ->
   #ReportModel.shouldShowMessage(false)
 
   # data = {date:dateStr, content:editor.getContent()}
-  data = {id:reportId, date:$("#dateTxt").val(), content:$("#content").val(), score:$("#score").val(),
-  content1:$("#content1").val(), content2:$("#content2").val(),
-  content3:$("#content3").val(), content4:$("#content4").val()}
+  data = {id:reportId, date:$("#dateTxt").val(), deal:$("#deal").val(), marks:$("#marks").val(), back_marks:$("#back_marks").val(),
+  content1:$("#content1").val(),
+  content3:$("#content3").val(), content4:$("#content4").val(), cc:$("#cc").val(),input:$("#input").val(),follow:$("#follow").val(),meet:$("#meet").val()}
   console.log data
 
   ReportModel.updateReport(data, (response)->

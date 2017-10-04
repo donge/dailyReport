@@ -44,10 +44,10 @@ init = ->
     return unless reportvm.validDateTxt()
     dateStr = getDateStr($("#dateTxt").datepicker("getDate"))
     # data = {date:dateStr, content:editor.getContent()}
-    data = {date:dateStr, content:$("#content").val(), score:$("#score").val(),
-    content1:$("#content1").val(), content2:$("#content2").val(),
-    content3:$("#content3").val(), content4:$("#content4").val()}
-    # console.log data
+    data = {date:dateStr, deal:$("#deal").val(), marks:$("#marks").val(), back_marks:$("#back_marks").val(),
+    content1:$("#content1").val(), content3:$("#content3").val(), content4:$("#content4").val(),
+    cc:$("#cc").val(), input:$("#input").val(), follow:$("#follow").val(),meet:$("#meet").val()}
+    console.log data
 
     ReportModel.createReport(data, (response)->
       return if response.state == 0

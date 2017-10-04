@@ -57,7 +57,7 @@
                 <p class="date"><i class="icon-calendar"></i> <span data-bind="text: time"></span></p>
                 <div>
 	                <div class="content" data-bind="text: message"></div>
-	                <!--<div class="content" data-bind="text: sender"></div>-->
+	                <div class="content" data-bind="text: sender"></div>
                 {{#if isLoginUser}}
                 	<p class="btn btn-link delete" data-bind="attr: {messageId: id}">删除</p>
                 {{/if}}

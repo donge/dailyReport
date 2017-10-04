@@ -42,21 +42,42 @@
             <li class="report">
                 <p class="date"><i class="icon-calendar"></i><span data-bind="text: date"></span></p>
                 <div data-bind="visible: !$parent.editable()">
-                  <span class="label label-default">今日日报</span><div class="content" data-bind="html: content"></div>
-	                <span class="label label-inverse">今日自评</span><div class="content" data-bind="text: mark"></div>
-	                <span class="label label-success">行得通的</span><div class="content" data-bind="text: content1"></div>
-	                <span class="label label-warning">待提高的</span><div class="content" data-bind="text: content2"></div>
+                  <span class="label label-success">有效CC (通)</span><div class="content" data-bind="text: cc"></div>
+                  <span class="label label-success">录入Lists (个)</span><div class="content" data-bind="text: input"></div>
+                  <span class="label label-success">Follow Call (通)</span><div class="content" data-bind="text: follow"></div>
+                  <span class="label label-success">约见客户 (个)</span><div class="content" data-bind="text: meet"></div>
+
+                  <span class="label label-inverse">今日成交</span><div class="content" data-bind="html: deal"></div>
+	                <span class="label label-inverse">折前 (万)</span><div class="content" data-bind="text: marks"></div>
+	                <span class="label label-inverse">折标 (万)</span><div class="content" data-bind="text: back_marks"></div>
+	                <span class="label label-warning">反思提高</span><div class="content" data-bind="text: content1"></div>
+
 	                <span class="label label-info">明日计划</span><div class="content" data-bind="text: content3"></div>
 	                <span class="label label-important">需要帮助</span><div class="content" data-bind="text: content4"></div>
 	                <p class="muted text-right" data-bind="text: time"></p>
 	              </div>
                 <div data-bind="visible: $parent.editable()">
-	                <span class="label label-default">今日日报</span><div><textarea class="input-xxlarge" id="content" rows="1" required="required" placeholder="your score..." data-bind="text: content"></textarea></div>
-	                <span class="label label-inverse">今日自评</span><div><textarea class="input-mini" id="score" rows="1" required="required" placeholder="your score..." data-bind="text: mark"></textarea></div>
-	                <span class="label label-success">行得通的</span><div><textarea class="input-xxlarge" id="content1" rows="1" required="required" placeholder="your score..." data-bind="text: content1"></textarea></div>
-	                <span class="label label-warning">待提高的</span><div><textarea class="input-xxlarge" id="content2" rows="1" required="required" placeholder="your score..." data-bind="text: content2"></textarea></div>
+                  <span class="label label-success">有效CC (通)</span>
+                  <div><textarea class="input-xxlarge" id="cc" rows="1" required="required" data-bind="text: cc"></textarea></div>
+                  <span class="label label-success">录入Lists (个)</span>
+                  <div><textarea class="input-xxlarge" id="input" rows="1" required="required" data-bind="text: input"></textarea></div>
+                  <span class="label label-success">Follow Call (通)</span>
+                  <div><textarea class="input-xxlarge" id="follow" rows="1" required="required" data-bind="text: follow"></textarea></div>
+                  <span class="label label-success">约见客户 (个)</span>
+                  <div><textarea class="input-xxlarge" id="meet" rows="1" required="required" data-bind="text: meet"></textarea></div>
+
+                  <span class="label label-inverse">今日成交</span>
+                  <div><textarea class="input-xxlarge" id="deal" rows="1" required="required" data-bind="text: deal"></textarea></div>
+                  <span class="label label-inverse">折前 (万)</span>
+                  <div><textarea class="input-xxlarge" id="marks" rows="1" required="required" data-bind="text: marks"></textarea></div>
+                  <span class="label label-inverse">折标 (万)</span>
+                  <div><textarea class="input-xxlarge" id="back_marks" rows="1" required="required" data-bind="text: back_marks"></textarea></div>
+                  <span class="label label-warning">反思提高</span>
+                  <div><textarea class="input-xxlarge" id="content1" rows="1" required="required" data-bind="text: content1"></textarea></div>
+
 	                <span class="label label-info">明日计划</span><div><textarea class="input-xxlarge" id="content3" rows="1" required="required" placeholder="your score..." data-bind="text: content3"></textarea></div>
 	                <span class="label label-important">需要帮助</span><div><textarea class="input-xxlarge" id="content4" rows="1" required="required" placeholder="your score..." data-bind="text: content4"></textarea></div>
+
 	                <textarea style="display:none" id="dateTxt" rows="1" cols="30" required="required" placeholder="your score..." data-bind="text: date"></textarea>
 
 	                <p class="btn btn-small update" data-bind="attr: {reportId: id}">保存修改</p>
