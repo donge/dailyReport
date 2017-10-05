@@ -25,8 +25,13 @@
           if (err) {
             return utils.showDBError(callback, client);
           }
-          client.quit();
-          return callback(new Response(1, 'success', reply));
+          return client.hmset("daily:" + dateStr + ":summary", userId + ":marks", marks, userId + ":back_marks", back_marks, userId + ":cc", cc, userId + ":input", input, userId + ":follow", follow, userId + ":meet", meet, function(err, reply) {
+            if (err) {
+              return utils.showDBError(callback, client);
+            }
+            client.quit();
+            return callback(new Response(1, 'success', reply));
+          });
         });
       });
     });
@@ -66,6 +71,129 @@
     }
     end = (numOfPage * page) - 1;
     return client.zrevrange("userid:" + userId + ":reportIds", start, end, function(err, reportIds) {
+      var back_marksArgs, ccArgs, content1Args, content3Args, content4Args, dateArgs, dealArgs, followArgs, inputArgs, j, len1, marksArgs, meetArgs, reportId, timeArgs;
+      if (err) {
+        return utils.showDBError(callback, client);
+      }
+      if (reportIds && reportIds.length === 0) {
+        return callback(new Response(1, 'success', []));
+      }
+      dateArgs = ["userid:" + userId + ":reports"];
+      timeArgs = ["userid:" + userId + ":reports"];
+      dealArgs = ["userid:" + userId + ":reports"];
+      marksArgs = ["userid:" + userId + ":reports"];
+      back_marksArgs = ["userid:" + userId + ":reports"];
+      content1Args = ["userid:" + userId + ":reports"];
+      content3Args = ["userid:" + userId + ":reports"];
+      content4Args = ["userid:" + userId + ":reports"];
+      ccArgs = ["userid:" + userId + ":reports"];
+      inputArgs = ["userid:" + userId + ":reports"];
+      followArgs = ["userid:" + userId + ":reports"];
+      meetArgs = ["userid:" + userId + ":reports"];
+      for (j = 0, len1 = reportIds.length; j < len1; j++) {
+        reportId = reportIds[j];
+        dateArgs.push(reportId + ":date");
+        timeArgs.push(reportId + ":time");
+        dealArgs.push(reportId + ":deal");
+        marksArgs.push(reportId + ":marks");
+        back_marksArgs.push(reportId + ":back_marks");
+        content1Args.push(reportId + ":content1");
+        content3Args.push(reportId + ":content3");
+        content4Args.push(reportId + ":content4");
+        ccArgs.push(reportId + ":cc");
+        inputArgs.push(reportId + ":input");
+        followArgs.push(reportId + ":follow");
+        meetArgs.push(reportId + ":meet");
+      }
+      return client.hmget(dateArgs, function(err, dates) {
+        if (err) {
+          return utils.showDBError(callback, client);
+        }
+        return client.hmget(timeArgs, function(err, times) {
+          if (err) {
+            return utils.showDBError(callback, client);
+          }
+          return client.hmget(dealArgs, function(err, deals) {
+            if (err) {
+              return utils.showDBError(callback, client);
+            }
+            return client.hmget(marksArgs, function(err, markss) {
+              if (err) {
+                return utils.showDBError(callback, client);
+              }
+              return client.hmget(back_marksArgs, function(err, back_markss) {
+                if (err) {
+                  return utils.showDBError(callback, client);
+                }
+                return client.hmget(content1Args, function(err, content1s) {
+                  if (err) {
+                    return utils.showDBError(callback, client);
+                  }
+                  return client.hmget(content3Args, function(err, content3s) {
+                    if (err) {
+                      return utils.showDBError(callback, client);
+                    }
+                    return client.hmget(content4Args, function(err, content4s) {
+                      if (err) {
+                        return utils.showDBError(callback, client);
+                      }
+                      return client.hmget(ccArgs, function(err, ccs) {
+                        if (err) {
+                          return utils.showDBError(callback, client);
+                        }
+                        return client.hmget(inputArgs, function(err, inputs) {
+                          if (err) {
+                            return utils.showDBError(callback, client);
+                          }
+                          return client.hmget(followArgs, function(err, follows) {
+                            if (err) {
+                              return utils.showDBError(callback, client);
+                            }
+                            return client.hmget(meetArgs, function(err, meets) {
+                              var i, k, len, ref, response;
+                              if (err) {
+                                return utils.showDBError(callback, client);
+                              }
+                              len = deals.length;
+                              response = [];
+                              for (i = k = 0, ref = len; 0 <= ref ? k < ref : k > ref; i = 0 <= ref ? ++k : --k) {
+                                response.push({
+                                  id: reportIds[i],
+                                  date: dates[i],
+                                  time: times[i],
+                                  deal: deals[i],
+                                  marks: markss[i],
+                                  back_marks: back_markss[i],
+                                  content1: content1s[i],
+                                  content3: content3s[i],
+                                  content4: content4s[i],
+                                  cc: ccs[i],
+                                  input: inputs[i],
+                                  follow: follows[i],
+                                  meet: meets[i]
+                                });
+                              }
+                              client.quit();
+                              return callback(new Response(1, 'success', response));
+                            });
+                          });
+                        });
+                      });
+                    });
+                  });
+                });
+              });
+            });
+          });
+        });
+      });
+    });
+  };
+
+  exports.getSummary = function(userId, startDate, endDate, callback) {
+    var client;
+    client = utils.createClient();
+    return client.zrevrange("userid:" + userId + ":reportIds", 0, 100, function(err, reportIds) {
       var back_marksArgs, ccArgs, content1Args, content3Args, content4Args, dateArgs, dealArgs, followArgs, inputArgs, j, len1, marksArgs, meetArgs, reportId, timeArgs;
       if (err) {
         return utils.showDBError(callback, client);
@@ -308,6 +436,55 @@
         client.quit();
         return callback(new Response(1, 'success', departmentTree));
       });
+    });
+  };
+
+  exports.getSubordinateUser = function(userId, callback) {
+    var client;
+    client = utils.createClient();
+    return client.hgetall("users", function(err, users) {
+      var children, getSubordinateIds, j, k, len1, len2, node, ref, subordinateIds, subordinateUsers, user, userArray, userObjs, userTree;
+      if (err) {
+        return utils.showDBError(callback, client);
+      }
+      ref = parseUsers(users), userObjs = ref[0], userArray = ref[1];
+      userTree = getDepartTreeData(userArray, {});
+      subordinateIds = [];
+      children = [];
+      for (j = 0, len1 = userTree.length; j < len1; j++) {
+        user = userTree[j];
+        if (user["id"] === userId) {
+          children = user["children"];
+          break;
+        }
+      }
+      getSubordinateIds = function(children, subordinateIds) {
+        var k, len2, results;
+        results = [];
+        for (k = 0, len2 = children.length; k < len2; k++) {
+          user = children[k];
+          subordinateIds.push(user["id"]);
+          if (user["children"]) {
+            results.push(getSubordinateIds(user["children"], subordinateIds));
+          } else {
+            results.push(void 0);
+          }
+        }
+        return results;
+      };
+      getSubordinateIds(children, subordinateIds);
+      subordinateUsers = [];
+      for (k = 0, len2 = subordinateIds.length; k < len2; k++) {
+        userId = subordinateIds[k];
+        node = {
+          label: userObjs[userId].name,
+          id: userObjs[userId].id,
+          node: userObjs[userId].pid
+        };
+        subordinateUsers.push(node);
+      }
+      client.quit();
+      return callback(new Response(1, 'success', subordinateUsers));
     });
   };
 

@@ -12,8 +12,12 @@ exports.createReport = (userId, deal, marks, back_marks, content1, content3, con
       return utils.showDBError(callback, client) if err
       client.hmset("userid:#{userId}:reports", "#{reportId}:date", dateStr, "#{reportId}:deal", deal, "#{reportId}:marks", marks, "#{reportId}:back_marks", back_marks, "#{reportId}:content1", content1, "#{reportId}:content3", content3, "#{reportId}:content4", content4, "#{reportId}:cc", cc, "#{reportId}:input", input, "#{reportId}:follow", follow, "#{reportId}:meet", meet, "#{reportId}:time", Date(), (err, reply)->
         return utils.showDBError(callback, client) if err
-        client.quit()
-        callback(new Response(1,'success',reply)) )))
+        # 更新daily
+        client.hmset("daily:#{dateStr}:summary", "#{userId}:marks", marks, "#{userId}:back_marks", back_marks,
+          "#{userId}:cc", cc, "#{userId}:input", input, "#{userId}:follow", follow, "#{userId}:meet", meet, (err, reply)->
+            return utils.showDBError(callback, client) if err
+            client.quit()
+            callback(new Response(1,'success',reply)) ))))
 
 # 更新Report
 exports.updateReport = (reportId, userId, deal, marks, back_marks, content1, content3, content4, cc, input, follow, meet, dateStr, callback) ->
@@ -98,6 +102,71 @@ exports.getReports = (userId, page, numOfPage, callback) ->
                             callback(new Response(1,'success',response)))))))))))))))
 
 
+
+
+exports.getSummary = (userId, startDate, endDate, callback) ->
+  client = utils.createClient()
+  client.zrevrange("userid:#{userId}:reportIds", 0, 100, (err, reportIds)->
+    return utils.showDBError(callback, client) if err
+    return callback(new Response(1,'success',[])) if reportIds and reportIds.length == 0
+
+    dateArgs = ["userid:#{userId}:reports"]
+    timeArgs = ["userid:#{userId}:reports"]
+    dealArgs = ["userid:#{userId}:reports"]
+    marksArgs = ["userid:#{userId}:reports"]
+    back_marksArgs = ["userid:#{userId}:reports"]
+    content1Args = ["userid:#{userId}:reports"]
+    content3Args = ["userid:#{userId}:reports"]
+    content4Args = ["userid:#{userId}:reports"]
+    ccArgs = ["userid:#{userId}:reports"]
+    inputArgs = ["userid:#{userId}:reports"]
+    followArgs = ["userid:#{userId}:reports"]
+    meetArgs = ["userid:#{userId}:reports"]
+
+    for reportId in reportIds
+      dateArgs.push("#{reportId}:date")
+      timeArgs.push("#{reportId}:time")
+      dealArgs.push("#{reportId}:deal")
+      marksArgs.push("#{reportId}:marks")
+      back_marksArgs.push("#{reportId}:back_marks")
+      content1Args.push("#{reportId}:content1")
+      content3Args.push("#{reportId}:content3")
+      content4Args.push("#{reportId}:content4")
+      ccArgs.push("#{reportId}:cc")
+      inputArgs.push("#{reportId}:input")
+      followArgs.push("#{reportId}:follow")
+      meetArgs.push("#{reportId}:meet")
+    client.hmget(dateArgs, (err, dates)->
+      return utils.showDBError(callback, client) if err
+      client.hmget(timeArgs, (err, times)->
+        return utils.showDBError(callback, client) if err
+        client.hmget(dealArgs, (err, deals)->
+          return utils.showDBError(callback, client) if err
+          client.hmget(marksArgs, (err, markss)->
+            return utils.showDBError(callback, client) if err
+            client.hmget(back_marksArgs, (err, back_markss)->
+              return utils.showDBError(callback, client) if err
+              client.hmget(content1Args, (err, content1s)->
+                return utils.showDBError(callback, client) if err
+                client.hmget(content3Args, (err, content3s)->
+                  return utils.showDBError(callback, client) if err
+                  client.hmget(content4Args, (err, content4s)->
+                    return utils.showDBError(callback, client) if err
+                    client.hmget(ccArgs, (err, ccs)->
+                      return utils.showDBError(callback, client) if err
+                      client.hmget(inputArgs, (err, inputs)->
+                        return utils.showDBError(callback, client) if err
+                        client.hmget(followArgs, (err, follows)->
+                          return utils.showDBError(callback, client) if err
+                          client.hmget(meetArgs, (err, meets)->
+                            return utils.showDBError(callback, client) if err
+                            len = deals.length
+                            response = []
+                            for i in [0...len]
+                              response.push({id:reportIds[i], date:dates[i], time:times[i], deal:deals[i], marks:markss[i],  back_marks:back_markss[i], content1:content1s[i], content3:content3s[i], content4:content4s[i], cc:ccs[i], input:inputs[i], follow:follows[i], meet:meets[i]})
+                            client.quit()
+                            callback(new Response(1,'success',response)))))))))))))))
+
 exports.getReportNum = (userId, callback) ->
   client = utils.createClient()
   client.zcount("userid:#{userId}:reportIds", "-inf", "+inf", (err, count)->
@@ -174,6 +243,36 @@ exports.getSubordinateUserAndDepartment = (userId, callback)->
       console.log departmentTree
       client.quit()
       callback(new Response(1,'success',departmentTree))))
+
+# 下属列表
+exports.getSubordinateUser = (userId, callback)->
+  client = utils.createClient()
+  client.hgetall("users", (err, users)->
+    return utils.showDBError(callback, client) if err
+    [userObjs, userArray] = parseUsers(users)
+    userTree = getDepartTreeData(userArray, {})
+    subordinateIds = []
+    children = []
+
+    for user in userTree
+      if user["id"] == userId
+        children = user["children"]
+        break
+
+    getSubordinateIds = (children, subordinateIds)->
+      for user in children
+        subordinateIds.push(user["id"])
+        getSubordinateIds(user["children"], subordinateIds) if user["children"]
+    getSubordinateIds(children, subordinateIds)
+
+    subordinateUsers = []
+    for userId in subordinateIds
+      node = {label:userObjs[userId].name, id:userObjs[userId].id, node:userObjs[userId].pid}
+      subordinateUsers.push(node)
+
+    client.quit()
+    callback(new Response(1,'success',subordinateUsers)))
+
 
 exports.getColleagueUserAndDepartment = (userId, callback)->
   client = utils.createClient()

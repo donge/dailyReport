@@ -1,15 +1,16 @@
 treeList = new TreeList2("#userTree")
 
-ReportModel.getSubordinateUserAndDepartment((response)->
+userData = []
+ReportModel.getSubordinateUser((response)->
   return if response.state == 0
-  treeData = response.data
-  console.log treeData
-  treeList.renderTree("#userTree", treeData))
+  userData = response.data
+  console.log userData
+  setTeam(userData)
+  treeList.renderTree("#userTree", userData))
 
 #设置用户编辑界面状态
 $("#userTree").on("review", (event)->
   userId = event["itemId"]
   initPageState()
   reportvm.userId(userId)
-  getReports(userId)
-  getReportNum(userId))
+  getSummary())

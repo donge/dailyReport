@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>下属日报</title>
+    <link rel='stylesheet' href='/css/bootstrap.min.css' />
+    <link rel='stylesheet' href='/css/reportStyle.css' />
+    <link rel='stylesheet' href='/css/pepper-grinder/jquery-ui-1.10.3.custom.min.css' />
+    <script type="text/javascript" src='/js/jquery-1.9.1.min.js'></script>
+    <script type="text/javascript" src='/js/jquery-ui-1.10.3.custom.min.js'></script>
+    <script type="text/javascript" src='/js/bootstrap.min.js'></script>
+
+</head>
+<body class="subordinate">
+<header class="navbar">
+    <a class="brand" href="/" title="home page">Daily Report</a>
+    <ul class="nav">
+        <li><a href="/write">写日报</a></li>
+        <li><a href="/show">日报</a></li>
+        <li ><a href="/show_summary">活动</a></li>
+        {{#if hasSubordinate}}
+        <li ><a href="/showsubordinate">下属日报</a></li>
+        {{/if}}
+        <li class="active"><a href="/showcolleague">同事日报</a></li>
+        <li ><a href="/message">发送私信</a></li>
+        <li ><a href="/password">修改密码</a></li>
+        {{#if isAdmin}}
+        <li ><a href="/admin">管理员控制台</a></li>
+        {{/if}}
+        {{#if isLoginUser}}
+        <li ><a href="/logout">退出</a></li>
+        {{/if}}
+    </ul>
+    <a class="logo" href="/" title="home page"><img src="/img/logo.png"></a>
+</header>
+<section id="userList">
+    <div class="title"> <i class="icon-list"></i><h1>部门成员列表</h1></div>
+    <div id="userTree"></div>
+</section>
+<section id="reports">
+    <div class="title"> <i class="icon-book"></i><h1>日报内容</h1></div>
+    <table class="table table-striped">
+    <thead>
+    <tr>
+        <th class="span3">日期</th>
+        <th class="span2">CC</th>
+        <th class="span2">录入Lists</th>
+        <th class="span2">Follow Call</th>
+        <th class="span2">约见客户</th>
+        <th class="span2">折前</th>
+        <th class="span2">折标</th>
+    </tr>
+    </thead>
+    <tbody data-bind="foreach: reports">
+        <td data-bind="text: date"></td>
+        <td data-bind="text: cc"></td>
+        <td data-bind="text: input"></td>
+        <td data-bind="text: follow"></td>
+        <td data-bind="text: meet"></td>
+        <td data-bind="text: marks"></td>
+        <td data-bind="text: back_marks"></td>
+    </tr>
+    </tr>
+    </tbody>
+</table>
+
+<!--
+    <article id="reportList" >
+        <ul class="unstyled" data-bind="foreach: reports">
+            <li class="report">
+                <p class="date"><i class="icon-calendar"></i><span data-bind="text: date"></span></p>
+                 <span class="label label-default">今日日报</span><div class="content" data-bind="html: content"></div>
+	                <span class="label label-inverse">今日自评</span><div class="content" data-bind="text: mark"></div>
+	                <span class="label label-success">行得通的</span><div class="content" data-bind="text: content1"></div>
+	                <span class="label label-warning">待提高的</span><div class="content" data-bind="text: content2"></div>
+	                <span class="label label-info">明日计划</span><div class="content" data-bind="text: content3"></div>
+	                <span class="label label-important">需要帮助</span><div class="content" data-bind="text: content4"></div>
+	                <p class="muted text-right" data-bind="text: time"></p>
+            </li>
+        </ul>
+        <div class="pagination" data-bind="if: pageNum() > 1">
+            <button class="btn btn-mini pagePre" title="上一页"
+                    data-bind="visible: currentPage()>1">&lt;&lt;</button>
+            <span data-bind="text: currentPage() + '/' + pageNum()"></span>
+            <button class="btn btn-mini pageNext" title="下一页"
+                    data-bind="visible: currentPage() < pageNum()">&gt;&gt;</button>
+        </div>
+    </article>
+</section>
+-->
+<script type="text/javascript" src='/js/knockout-2.2.1.js'></script>
+<script type="text/javascript" src='/js/ReportModel.js'></script>
+<script type="text/javascript" src='/js/TreeList.js'></script>
+<script type="text/javascript" src='/js/summaryBase.js'></script>
+<script type="text/javascript" src='/js/teamReports.js'></script>
+</body>
+</html>

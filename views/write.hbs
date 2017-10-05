@@ -16,7 +16,8 @@
     <a class="brand" href="/" title="home page">Daily Report</a>
     <ul class="nav">
         <li class="active"><a href="/write">写日报</a></li>
-        <li ><a href="/show">我的日报</a></li>
+        <li><a href="/show">日报</a></li>
+        <li><a href="/show_summary">活动</a></li>
         {{#if hasSubordinate}}
         <li ><a href="/showsubordinate">下属日报</a></li>
         {{/if}}
@@ -36,7 +37,6 @@
 <section class="container">
     <div class="title"> <i class="icon-file"></i><h1>写日报</h1></div>
     <article id="reportCreation">
-
       <div><label for="dateTxt">日期:</label>
             <input id="dateTxt" type="text" required="required"
                    data-bind="value:dateTxt, valueUpdate:'keyup'"/></div>
@@ -73,9 +73,8 @@
 <label for="content3"><span class="label label-info">明日计划</span></label>
             <textarea id="content3" rows="2" required="required"
                       placeholder="不得为空"></textarea>
-
-            <label for="content4"><span class="label label-important">需要帮助</span></label>
-            <textarea id="content4" rows="2" placeholder="可以为空"></textarea>
+            <label for="content4"><span class="label label-important" onclick="$('#content4').show();">需要帮助 (点击填写，默认无)</span></label>
+            <textarea id="content4" rows="2" placeholder="可以为空" style="display:none"></textarea>
 </div>
         <div><input id="reportSubmitBtn" type="button" value="发布" class="btn btn-primary" data-bind="enable:validDateTxt()"/></div>
     </article>

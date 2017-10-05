@@ -54,7 +54,6 @@ exports.write = (req, res) ->
     check(back_marks).notEmpty()
     check(content1).notEmpty()
     check(content3).notEmpty()
-    check(content4).notEmpty()
     check(cc).notEmpty()
     check(input).notEmpty()
     check(follow).notEmpty()
@@ -98,7 +97,6 @@ exports.update = (req, res) ->
     check(back_marks).notEmpty()
     check(content1).notEmpty()
     check(content3).notEmpty()
-    check(content4).notEmpty()
     check(cc).notEmpty()
     check(input).notEmpty()
     check(follow).notEmpty()
@@ -119,6 +117,10 @@ exports.update = (req, res) ->
 exports.showIndex = (req, res) ->
   return unless utils.authenticateUser(req,res)
   showPage(req, res, "show")
+
+exports.showSummary = (req, res) ->
+  return unless utils.authenticateUser(req,res)
+  showPage(req, res, "show_summary")
 
 exports.showIndexMobile = (req, res) ->
   return unless utils.authenticateUser(req,res)
@@ -143,6 +145,17 @@ exports.showsubordinateIndex = (req, res) ->
       res.render("showsubordinate", {hasSubordinate:true, isLoginUser:utils.isLoginUser(req),isAdmin:utils.isAdmin(req)})
     else
       res.send(new Response(0,'您还没有下属，不需要访问该页面')))
+
+
+exports.showteamIndex = (req, res) ->
+  return unless utils.authenticateUser(req,res)
+  userId = req.session.userId
+  userModel.hasSubordinate(userId, (result)->
+    if result
+      res.render("show_team", {hasSubordinate:true, isLoginUser:utils.isLoginUser(req),isAdmin:utils.isAdmin(req)})
+    else
+      res.send(new Response(0,'您还没有下属，不需要访问该页面')))
+
 
 exports.showcolleagueIndex = (req, res) ->
   return unless utils.authenticateUser(req,res)
@@ -179,6 +192,20 @@ exports.getReports = (req, res) ->
   catch error
     res.send(new Response(0,"页数和每页显示条数为非负数"))
 
+exports.getSummary = (req, res) ->
+  startDate = req.body.start_date
+  endDate = req.body.end_date
+  #没有userId表示访问自己的日报
+
+  #每页显示条数
+  numOfPage =  req.body.numOfPage
+  try
+    reportModel.getSummary(startDate, endDate, (response)->
+      res.send(response))
+  catch error
+    res.send(new Response(0,"页数和每页显示条数为非负数"))
+
+
 exports.getReportNum = (req, res) ->
   return unless utils.authenticateUser(req,res)
   userId = req.body.userId
@@ -200,6 +227,12 @@ exports.getSubordinateUserAndDepartment = (req, res) ->
   return unless utils.authenticateUser(req,res)
   userId = req.session.userId
   reportModel.getSubordinateUserAndDepartment(userId, (response)->
+    res.send(response))
+
+exports.getSubordinateUser = (req, res) ->
+  return unless utils.authenticateUser(req,res)
+  userId = req.session.userId
+  reportModel.getSubordinateUser(userId, (response)->
     res.send(response))
 
 exports.getColleagueUserAndDepartment = (req, res) ->

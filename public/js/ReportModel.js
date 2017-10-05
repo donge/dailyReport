@@ -43,6 +43,12 @@
       }, "json");
     };
 
+    ReportModel.getSubordinateUser = function(callback) {
+      return $.post("/getsubordinateuser", function(response) {
+        return callback(response);
+      }, "json");
+    };
+
     ReportModel.getReports = function(data, callback) {
       return $.post("/getreports", data, function(response) {
         return callback(response);

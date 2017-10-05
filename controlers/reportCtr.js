@@ -90,7 +90,6 @@
       check(back_marks).notEmpty();
       check(content1).notEmpty();
       check(content3).notEmpty();
-      check(content4).notEmpty();
       check(cc).notEmpty();
       check(input).notEmpty();
       check(follow).notEmpty();
@@ -134,7 +133,6 @@
       check(back_marks).notEmpty();
       check(content1).notEmpty();
       check(content3).notEmpty();
-      check(content4).notEmpty();
       check(cc).notEmpty();
       check(input).notEmpty();
       check(follow).notEmpty();
@@ -157,6 +155,13 @@
       return;
     }
     return showPage(req, res, "show");
+  };
+
+  exports.showSummary = function(req, res) {
+    if (!utils.authenticateUser(req, res)) {
+      return;
+    }
+    return showPage(req, res, "show_summary");
   };
 
   exports.showIndexMobile = function(req, res) {
@@ -198,6 +203,25 @@
     return userModel.hasSubordinate(userId, function(result) {
       if (result) {
         return res.render("showsubordinate", {
+          hasSubordinate: true,
+          isLoginUser: utils.isLoginUser(req),
+          isAdmin: utils.isAdmin(req)
+        });
+      } else {
+        return res.send(new Response(0, '您还没有下属，不需要访问该页面'));
+      }
+    });
+  };
+
+  exports.showteamIndex = function(req, res) {
+    var userId;
+    if (!utils.authenticateUser(req, res)) {
+      return;
+    }
+    userId = req.session.userId;
+    return userModel.hasSubordinate(userId, function(result) {
+      if (result) {
+        return res.render("show_team", {
           hasSubordinate: true,
           isLoginUser: utils.isLoginUser(req),
           isAdmin: utils.isAdmin(req)
@@ -265,6 +289,21 @@
     }
   };
 
+  exports.getSummary = function(req, res) {
+    var endDate, error, error1, numOfPage, startDate;
+    startDate = req.body.start_date;
+    endDate = req.body.end_date;
+    numOfPage = req.body.numOfPage;
+    try {
+      return reportModel.getSummary(startDate, endDate, function(response) {
+        return res.send(response);
+      });
+    } catch (error1) {
+      error = error1;
+      return res.send(new Response(0, "页数和每页显示条数为非负数"));
+    }
+  };
+
   exports.getReportNum = function(req, res) {
     var userId;
     if (!utils.authenticateUser(req, res)) {
@@ -298,6 +337,17 @@
     }
     userId = req.session.userId;
     return reportModel.getSubordinateUserAndDepartment(userId, function(response) {
+      return res.send(response);
+    });
+  };
+
+  exports.getSubordinateUser = function(req, res) {
+    var userId;
+    if (!utils.authenticateUser(req, res)) {
+      return;
+    }
+    userId = req.session.userId;
+    return reportModel.getSubordinateUser(userId, function(response) {
       return res.send(response);
     });
   };

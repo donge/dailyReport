@@ -22,11 +22,17 @@ exports.createRoutes = (app)->
   app.post('/delete', report.delete);
   app.post('/update', report.update);
   app.get('/show', report.showIndex);
+  app.get('/show_summary', report.showSummary);
+
   app.post('/getsubordinateuseranddepartment', report.getSubordinateUserAndDepartment);
+  app.post('/getsubordinateuser', report.getSubordinateUser);
   app.get('/showsubordinate', report.showsubordinateIndex);
+  app.get('/show_team', report.showteamIndex);
+
   app.post('/getcolleagueuseranddepartment', report.getColleagueUserAndDepartment);
   app.get('/showcolleague', report.showcolleagueIndex);
   app.post('/getreports', report.getReports);
+  app.post('/getsummary', report.getSummary);
   app.post('/getreportnum', report.getReportNum);
   app.get('/login', user.loginIndex);
   app.get('/logout', user.logout);
