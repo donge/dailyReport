@@ -1,3 +1,5 @@
+.left-label{ float: left;} /* 背景白色 */
+
 .treeList ul {
   list-style: none;
 }
@@ -63,7 +65,7 @@ div.title h1 {
   minheight: 230px;
 }
 #reportCreation textarea {
-  width: 80%;
+  width: 90%;
 }
 #reportCreation #dateTxt {
   margin-bottom: 20px;
