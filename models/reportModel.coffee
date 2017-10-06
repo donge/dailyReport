@@ -240,7 +240,7 @@ exports.getSubordinateUserAndDepartment = (userId, callback)->
           if department["children"]
             getUserDepartmentTreeData(department["children"])
       getUserDepartmentTreeData(departmentTree)
-      console.log departmentTree
+      # console.log departmentTree
       client.quit()
       callback(new Response(1,'success',departmentTree))))
 
@@ -297,7 +297,7 @@ exports.getColleagueUserAndDepartment = (userId, callback)->
       colleagueArray
 
     colleagueUsers = getColleagueUsers(pid, userArray)
-    console.log colleagueUsers
+    # console.log colleagueUsers
     client.quit()
     callback(new Response(1,'success',colleagueUsers)))
 
@@ -355,7 +355,7 @@ getDepartTreeData = (departs, allObjs)->
       if value.pid == node.id
         node.children = [] unless node.children
         childNode = {label:value.name, id:value.id, node:1}
-        console.log value.id
+        # console.log value.id
         node.children.push(childNode)
         findChidren(childNode, departs)
 

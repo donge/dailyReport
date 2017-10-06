@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>我的活动</title>
     <link rel='stylesheet' href='/css/bootstrap.min.css' />
     <link rel='stylesheet' href='/css/reportStyle.css' />
@@ -32,22 +33,22 @@
     </ul>
     <a class="logo" href="/" title="home page"><img src="/img/logo.png"></a>
 </header>
-<div id="dialog-confirm" title="删除日报" style="display:none">
+<!--<div id="dialog-confirm" title="删除日报" style="display:none">
     <p>确认要删除该日报吗？</p>
-</div>
-<section class="container">
+</div>-->
+<section>
     <div class="title"> <i class="icon-book"></i><h1>我的活动</h1></div>
-
+<article>
 <table class="table table-striped">
     <thead>
     <tr>
-        <th class="span3">日期</th>
-        <th class="span2">CC</th>
-        <th class="span2">录入Lists</th>
-        <th class="span2">Follow Call</th>
-        <th class="span2">约见客户</th>
-        <th class="span2">折前</th>
-        <th class="span2">折标</th>
+        <th class="span1">日期</th>
+        <th class="span1">CC</th>
+        <th class="span1">录入Lists</th>
+        <th class="span1">Follow Call</th>
+        <th class="span1">约见客户</th>
+        <th class="span1">折前</th>
+        <th class="span1">折标</th>
     </tr>
     </thead>
     <tbody data-bind="foreach: reports">
@@ -62,7 +63,7 @@
     </tr>
     </tr>
     </tbody>
-</table>
+</table></article>
 <!--
     <article id="reportList" >
         <ul class="unstyled" data-bind="foreach: reports">

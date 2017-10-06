@@ -432,7 +432,6 @@
           return results;
         };
         getUserDepartmentTreeData(departmentTree);
-        console.log(departmentTree);
         client.quit();
         return callback(new Response(1, 'success', departmentTree));
       });
@@ -518,7 +517,6 @@
         return colleagueArray;
       };
       colleagueUsers = getColleagueUsers(pid, userArray);
-      console.log(colleagueUsers);
       client.quit();
       return callback(new Response(1, 'success', colleagueUsers));
     });
@@ -606,7 +604,6 @@
             id: value.id,
             node: 1
           };
-          console.log(value.id);
           node.children.push(childNode);
           results.push(findChidren(childNode, departs));
         } else {

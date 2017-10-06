@@ -51,6 +51,7 @@
       follow: $("#follow").val(),
       meet: $("#meet").val()
     };
+    console.log(data);
     return ReportModel.updateReport(data, function(response) {
       if (response.state === 0) {
         return;
