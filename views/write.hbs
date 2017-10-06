@@ -34,22 +34,77 @@
 </header>
 
 <section class="container">
-    <div class="title"> <i class="icon-file"></i><h1>写日报</h1></div>
     <article id="reportCreation">
-      <div><label for="dateTxt">日期:</label>
-            <input id="dateTxt" type="text" required="required"
-                   data-bind="value:dateTxt, valueUpdate:'keyup'"/></div>
 
-            <div class="title"> <i class="icon-file"></i>Daily Activities</div>
+   <div class="input-prepend">
+  <span class="add-on">日期:</span>
+  <input class="span2" id="dateTxt" type="text" required="required" data-bind="value:dateTxt, valueUpdate:'keyup'"/>
+</div>
 
-            <label for="cc"><span class="label label-success">有效CC (通)</span></label><input id="cc" type="number" required="required" value="0"></input>
-            <label for="input"><span class="label label-success">录入Lists (个)</span></label><input id="input" type="number"  required="required" value="0"></input>
-            <label for="follow"><span class="label label-success">Follow Call (通)</span></label><input id="follow" type="number"  required="required" value="0"></input>
-            <label for="meet"><span class="label label-success">约见客户 (个)</span></label><input id="meet" type="number"  required="required" value="0"></input>
 
-            <div class="title"> <i class="icon-file"></i>Gains and Grows</div>
-            <label for="deal"><span class="label label-inverse">今日成交 (按Ctrl多选)</span></label>
-            <select id="deal" multiple required="required">
+  <ul class="nav nav-tabs">
+    <li class="active">
+      <a href="#"><i class="icon-file"></i> Daily Activities</a>
+    </li>
+  </ul>
+  <div class="hero-unit">
+<div class="row-fluid">
+  <div class="span3">
+    <label for="cc"><span class="label label-success">有效CC</span></label>
+      <div class="input-append">
+        <input class="span10" id="cc" type="number" required="required" value="0"></input>
+        <span class="add-on">通</span>
+      </div>
+  </div>
+  <div class="span3">
+    <label for="input"><span class="label label-success">录入Lists</span></label>
+      <div class="input-append">
+        <input class="span10" id="input" type="number" required="required" value="0"></input>
+        <span class="add-on">个</span>
+      </div>
+  </div>
+  <div class="span3">
+    <label for="follow"><span class="label label-success">Follow Call</span></label>
+      <div class="input-append">
+        <input class="span10" id="follow" type="number" required="required" value="0"></input>
+        <span class="add-on">通</span>
+      </div>
+  </div>
+  <div class="span3">
+    <label for="meet"><span class="label label-success">约见客户</span></label>
+      <div class="input-append">
+        <input class="span10" id="meet" type="number" required="required" value="0"></input>
+        <span class="add-on">个</span>
+      </div>
+</div>
+</div>
+</div>
+
+  <ul class="nav nav-tabs">
+    <li class="active">
+      <a href="#"><i class="icon-file"></i> Gains and Grows</a>
+    </li>
+  </ul>
+   <div class="hero-unit">
+  <div class="row-fluid">
+  <div class="span3">
+    <label for="marks"><span class="label label-inverse">今日成交折前</span></label>
+      <div class="input-append">
+        <input class="span10" id="marks" type="number" required="required" value="0"></input>
+        <span class="add-on">万</span>
+      </div>
+  </div>
+  <div class="span3">
+    <label for="back_marks"><span class="label label-inverse">折标</span></label>
+      <div class="input-append">
+        <input class="span10" id="back_marks" type="number" required="required" value="0"></input>
+        <span class="add-on">万</span>
+      </div>
+  </div>
+  <div class="span6">
+    <label for="deal"><span class="label label-inverse">产品名称</span></label>
+    <input class="span10" id="deal" type="text" required="required" value="暂无"></input>
+        <!--<select id="deal" multiple required="required">
              <option>暂无</option>
              <option>固收</option>
              <option>亿百润</option>
@@ -58,22 +113,31 @@
              <option>美元产品</option>
              <option>保险</option>
              <option>其他</option>
-            </select>
-            <label for="marks"><span class="label label-inverse">折前 (万)</span></label>
-            <input id="marks" type="number"  required="required" value="0"></input>
-            <label for="back_marks"><span class="label label-inverse">折标 (万)</span>
-            </label><input id="back_marks" type="number" required="required" value="0"></input>
-
-            <label for="content1"><span class="label label-warning">反思提高</span></label>
+            </select>-->
+      </div>
+      <label for="content1"><span class="label label-warning">反思&提高</span></label>
             <textarea id="content1" rows="2" required="required"
                       placeholder="不得为空"></textarea>
+  </div></div>
 
-<div class="title"> <i class="icon-file"></i>Plan and Support</div>
+
+  <ul class="nav nav-tabs">
+    <li class="active">
+      <a href="#"><i class="icon-file"></i> Plan and Support</a>
+    </li>
+  </ul>
+  <div class="hero-unit">
+  <div class="row-fluid">
+  <div class="span6">
 <label for="content3"><span class="label label-info">明日计划</span></label>
-            <textarea id="content3" rows="2" required="required"
+            <textarea id="content3" rows="3" required="required"
                       placeholder="不得为空"></textarea>
+                      </div>
+          <div class="span6">
             <label for="content4"><span class="label label-important" onclick="$('#content4').show();">需要帮助 (点击填写，默认无)</span></label>
-            <textarea id="content4" rows="2" placeholder="可以为空" style="display:none"></textarea>
+            <textarea id="content4" rows="3" placeholder="可以为空" style="display:none"></textarea>
+</div>
+</div>
 </div>
         <div><input id="reportSubmitBtn" type="button" value="发布" class="btn btn-primary" data-bind="enable:validDateTxt()"/></div>
     </article>

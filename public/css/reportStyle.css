@@ -59,8 +59,7 @@ div.title h1 {
   margin: 0;
 }
 #reportCreation {
-  background-color: #fbeed5;
-  width: 400px;
+  width: 100%;
   minheight: 230px;
 }
 #reportCreation textarea {
