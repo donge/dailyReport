@@ -8,7 +8,7 @@
 
   utils = require("../utils");
 
-  exports.createReport = function(userId, deal, marks, back_marks, content1, content3, content4, cc, input, follow, meet, dateStr, callback) {
+  exports.createReport = function(userId, marks, back_marks, content1, content3, content4, cc, input, follow, meet, dateStr, callback) {
     var client;
     client = utils.createClient();
     return client.incr("next_report_id", function(err, reportId) {
@@ -21,7 +21,7 @@
         if (err) {
           return utils.showDBError(callback, client);
         }
-        return client.hmset("userid:" + userId + ":reports", reportId + ":date", dateStr, reportId + ":deal", deal, reportId + ":marks", marks, reportId + ":back_marks", back_marks, reportId + ":content1", content1, reportId + ":content3", content3, reportId + ":content4", content4, reportId + ":cc", cc, reportId + ":input", input, reportId + ":follow", follow, reportId + ":meet", meet, reportId + ":time", Date(), function(err, reply) {
+        return client.hmset("userid:" + userId + ":reports", reportId + ":date", dateStr, reportId + ":marks", marks, reportId + ":back_marks", back_marks, reportId + ":content1", content1, reportId + ":content3", content3, reportId + ":content4", content4, reportId + ":cc", cc, reportId + ":input", input, reportId + ":follow", follow, reportId + ":meet", meet, reportId + ":time", Date(), function(err, reply) {
           if (err) {
             return utils.showDBError(callback, client);
           }
@@ -37,11 +37,11 @@
     });
   };
 
-  exports.updateReport = function(reportId, userId, deal, marks, back_marks, content1, content3, content4, cc, input, follow, meet, dateStr, callback) {
+  exports.updateReport = function(reportId, userId, marks, back_marks, content1, content3, content4, cc, input, follow, meet, dateStr, callback) {
     var client;
     client = utils.createClient();
-    console.log(reportId, userId, deal, marks, back_marks, content1, content3, content4, cc, input, follow, meet, dateStr);
-    return client.hmset("userid:" + userId + ":reports", reportId + ":date", dateStr, reportId + ":deal", deal, reportId + ":marks", marks, reportId + ":back_marks", back_marks, reportId + ":content1", content1, reportId + ":content3", content3, reportId + ":content4", content4, reportId + ":cc", cc, reportId + ":input", input, reportId + ":follow", follow, reportId + ":meet", meet, reportId + ":time", Date(), function(err, reply) {
+    console.log(reportId, userId, marks, back_marks, content1, content3, content4, cc, input, follow, meet, dateStr);
+    return client.hmset("userid:" + userId + ":reports", reportId + ":date", dateStr, reportId + ":marks", marks, reportId + ":back_marks", back_marks, reportId + ":content1", content1, reportId + ":content3", content3, reportId + ":content4", content4, reportId + ":cc", cc, reportId + ":input", input, reportId + ":follow", follow, reportId + ":meet", meet, reportId + ":time", Date(), function(err, reply) {
       if (err) {
         return utils.showDBError(callback, client);
       }
@@ -71,7 +71,7 @@
     }
     end = (numOfPage * page) - 1;
     return client.zrevrange("userid:" + userId + ":reportIds", start, end, function(err, reportIds) {
-      var back_marksArgs, ccArgs, content1Args, content3Args, content4Args, dateArgs, dealArgs, followArgs, inputArgs, j, len1, marksArgs, meetArgs, reportId, timeArgs;
+      var back_marksArgs, ccArgs, content1Args, content3Args, content4Args, dateArgs, followArgs, inputArgs, j, len1, marksArgs, meetArgs, reportId, timeArgs;
       if (err) {
         return utils.showDBError(callback, client);
       }
@@ -80,7 +80,6 @@
       }
       dateArgs = ["userid:" + userId + ":reports"];
       timeArgs = ["userid:" + userId + ":reports"];
-      dealArgs = ["userid:" + userId + ":reports"];
       marksArgs = ["userid:" + userId + ":reports"];
       back_marksArgs = ["userid:" + userId + ":reports"];
       content1Args = ["userid:" + userId + ":reports"];
@@ -94,7 +93,6 @@
         reportId = reportIds[j];
         dateArgs.push(reportId + ":date");
         timeArgs.push(reportId + ":time");
-        dealArgs.push(reportId + ":deal");
         marksArgs.push(reportId + ":marks");
         back_marksArgs.push(reportId + ":back_marks");
         content1Args.push(reportId + ":content1");
@@ -113,69 +111,63 @@
           if (err) {
             return utils.showDBError(callback, client);
           }
-          return client.hmget(dealArgs, function(err, deals) {
+          return client.hmget(marksArgs, function(err, markss) {
             if (err) {
               return utils.showDBError(callback, client);
             }
-            return client.hmget(marksArgs, function(err, markss) {
+            return client.hmget(back_marksArgs, function(err, back_markss) {
               if (err) {
                 return utils.showDBError(callback, client);
               }
-              return client.hmget(back_marksArgs, function(err, back_markss) {
+              return client.hmget(content1Args, function(err, content1s) {
                 if (err) {
                   return utils.showDBError(callback, client);
                 }
-                return client.hmget(content1Args, function(err, content1s) {
+                return client.hmget(content3Args, function(err, content3s) {
                   if (err) {
                     return utils.showDBError(callback, client);
                   }
-                  return client.hmget(content3Args, function(err, content3s) {
+                  return client.hmget(content4Args, function(err, content4s) {
                     if (err) {
                       return utils.showDBError(callback, client);
                     }
-                    return client.hmget(content4Args, function(err, content4s) {
+                    return client.hmget(ccArgs, function(err, ccs) {
                       if (err) {
                         return utils.showDBError(callback, client);
                       }
-                      return client.hmget(ccArgs, function(err, ccs) {
+                      return client.hmget(inputArgs, function(err, inputs) {
                         if (err) {
                           return utils.showDBError(callback, client);
                         }
-                        return client.hmget(inputArgs, function(err, inputs) {
+                        return client.hmget(followArgs, function(err, follows) {
                           if (err) {
                             return utils.showDBError(callback, client);
                           }
-                          return client.hmget(followArgs, function(err, follows) {
+                          return client.hmget(meetArgs, function(err, meets) {
+                            var i, k, len, ref, response;
                             if (err) {
                               return utils.showDBError(callback, client);
                             }
-                            return client.hmget(meetArgs, function(err, meets) {
-                              var i, k, len, ref, response;
-                              if (err) {
-                                return utils.showDBError(callback, client);
-                              }
-                              len = deals.length;
-                              response = [];
-                              for (i = k = 0, ref = len; 0 <= ref ? k < ref : k > ref; i = 0 <= ref ? ++k : --k) {
-                                response.push({
-                                  id: reportIds[i],
-                                  date: dates[i],
-                                  time: times[i],
-                                  deal: deals[i],
-                                  marks: markss[i],
-                                  back_marks: back_markss[i],
-                                  content1: content1s[i],
-                                  content3: content3s[i],
-                                  content4: content4s[i],
-                                  cc: ccs[i],
-                                  input: inputs[i],
-                                  follow: follows[i],
-                                  meet: meets[i]
-                                });
-                              }
-                              client.quit();
-                              return callback(new Response(1, 'success', response));
-                            });
+                            len = markss.length;
+                            response = [];
+                            for (i = k = 0, ref = len; 0 <= ref ? k < ref : k > ref; i = 0 <= ref ? ++k : --k) {
+                              response.push({
+                                id: reportIds[i],
+                                date: dates[i],
+                                time: times[i],
+                                marks: markss[i],
+                                back_marks: back_markss[i],
+                                content1: content1s[i],
+                                content3: content3s[i],
+                                content4: content4s[i],
+                                cc: ccs[i],
+                                input: inputs[i],
+                                follow: follows[i],
+                                meet: meets[i]
+                              });
+                            }
+                            client.quit();
+                            return callback(new Response(1, 'success', response));
                           });
                         });
                       });
@@ -194,7 +186,7 @@
     var client;
     client = utils.createClient();
     return client.zrevrange("userid:" + userId + ":reportIds", 0, 100, function(err, reportIds) {
-      var back_marksArgs, ccArgs, content1Args, content3Args, content4Args, dateArgs, dealArgs, followArgs, inputArgs, j, len1, marksArgs, meetArgs, reportId, timeArgs;
+      var back_marksArgs, ccArgs, content1Args, content3Args, content4Args, dateArgs, followArgs, inputArgs, j, len1, marksArgs, meetArgs, reportId, timeArgs;
       if (err) {
         return utils.showDBError(callback, client);
       }
@@ -203,7 +195,6 @@
       }
       dateArgs = ["userid:" + userId + ":reports"];
       timeArgs = ["userid:" + userId + ":reports"];
-      dealArgs = ["userid:" + userId + ":reports"];
       marksArgs = ["userid:" + userId + ":reports"];
       back_marksArgs = ["userid:" + userId + ":reports"];
       content1Args = ["userid:" + userId + ":reports"];
@@ -217,7 +208,6 @@
         reportId = reportIds[j];
         dateArgs.push(reportId + ":date");
         timeArgs.push(reportId + ":time");
-        dealArgs.push(reportId + ":deal");
         marksArgs.push(reportId + ":marks");
         back_marksArgs.push(reportId + ":back_marks");
         content1Args.push(reportId + ":content1");
@@ -236,69 +226,63 @@
           if (err) {
             return utils.showDBError(callback, client);
           }
-          return client.hmget(dealArgs, function(err, deals) {
+          return client.hmget(marksArgs, function(err, markss) {
             if (err) {
               return utils.showDBError(callback, client);
             }
-            return client.hmget(marksArgs, function(err, markss) {
+            return client.hmget(back_marksArgs, function(err, back_markss) {
               if (err) {
                 return utils.showDBError(callback, client);
               }
-              return client.hmget(back_marksArgs, function(err, back_markss) {
+              return client.hmget(content1Args, function(err, content1s) {
                 if (err) {
                   return utils.showDBError(callback, client);
                 }
-                return client.hmget(content1Args, function(err, content1s) {
+                return client.hmget(content3Args, function(err, content3s) {
                   if (err) {
                     return utils.showDBError(callback, client);
                   }
-                  return client.hmget(content3Args, function(err, content3s) {
+                  return client.hmget(content4Args, function(err, content4s) {
                     if (err) {
                       return utils.showDBError(callback, client);
                     }
-                    return client.hmget(content4Args, function(err, content4s) {
+                    return client.hmget(ccArgs, function(err, ccs) {
                       if (err) {
                         return utils.showDBError(callback, client);
                       }
-                      return client.hmget(ccArgs, function(err, ccs) {
+                      return client.hmget(inputArgs, function(err, inputs) {
                         if (err) {
                           return utils.showDBError(callback, client);
                         }
-                        return client.hmget(inputArgs, function(err, inputs) {
+                        return client.hmget(followArgs, function(err, follows) {
                           if (err) {
                             return utils.showDBError(callback, client);
                           }
-                          return client.hmget(followArgs, function(err, follows) {
+                          return client.hmget(meetArgs, function(err, meets) {
+                            var i, k, len, ref, response;
                             if (err) {
                               return utils.showDBError(callback, client);
                             }
-                            return client.hmget(meetArgs, function(err, meets) {
-                              var i, k, len, ref, response;
-                              if (err) {
-                                return utils.showDBError(callback, client);
-                              }
-                              len = deals.length;
-                              response = [];
-                              for (i = k = 0, ref = len; 0 <= ref ? k < ref : k > ref; i = 0 <= ref ? ++k : --k) {
-                                response.push({
-                                  id: reportIds[i],
-                                  date: dates[i],
-                                  time: times[i],
-                                  deal: deals[i],
-                                  marks: markss[i],
-                                  back_marks: back_markss[i],
-                                  content1: content1s[i],
-                                  content3: content3s[i],
-                                  content4: content4s[i],
-                                  cc: ccs[i],
-                                  input: inputs[i],
-                                  follow: follows[i],
-                                  meet: meets[i]
-                                });
-                              }
-                              client.quit();
-                              return callback(new Response(1, 'success', response));
-                            });
+                            len = markss.length;
+                            response = [];
+                            for (i = k = 0, ref = len; 0 <= ref ? k < ref : k > ref; i = 0 <= ref ? ++k : --k) {
+                              response.push({
+                                id: reportIds[i],
+                                date: dates[i],
+                                time: times[i],
+                                marks: markss[i],
+                                back_marks: back_markss[i],
+                                content1: content1s[i],
+                                content3: content3s[i],
+                                content4: content4s[i],
+                                cc: ccs[i],
+                                input: inputs[i],
+                                follow: follows[i],
+                                meet: meets[i]
+                              });
+                            }
+                            client.quit();
+                            return callback(new Response(1, 'success', response));
                           });
                         });
                       });

@@ -35,7 +35,6 @@ exports.write = (req, res) ->
   return unless utils.authenticateUser(req,res)
   userId = req.session.userId
   dateStr = req.body.date
-  deal = req.body.deal
   marks = req.body.marks
   back_marks = req.body.back_marks
   content1 = req.body.content1
@@ -47,9 +46,8 @@ exports.write = (req, res) ->
   meet = req.body.meet
 
   try
-    console.log "#{deal}, #{marks}, #{back_marks},#{content1}, #{content3}, #{content4}, #{cc}, #{input}, #{follow}, #{meet}"
+    console.log "#{marks}, #{back_marks},#{content1}, #{content3}, #{content4}, #{cc}, #{input}, #{follow}, #{meet}"
     check(dateStr).notEmpty()
-    check(deal).notEmpty()
     check(marks).notEmpty()
     check(back_marks).notEmpty()
     check(content1).notEmpty()
@@ -66,7 +64,7 @@ exports.write = (req, res) ->
     check(year).notNull().isNumeric().len(4,4)
     check(months).notNull().isNumeric().len(1,2)
     check(date).notNull().isNumeric().len(1,2)
-    reportModel.createReport(userId, deal, marks, back_marks, content1, content3, content4, cc, input, follow, meet, dateStr, (response)->
+    reportModel.createReport(userId, marks, back_marks, content1, content3, content4, cc, input, follow, meet, dateStr, (response)->
     #reportModel.createReport(userId, content, dateStr, (response)->
       res.send(response))
   catch error
@@ -77,7 +75,6 @@ exports.update = (req, res) ->
   userId = req.session.userId
   reportId = req.body.id
   dateStr = req.body.date
-  deal = req.body.deal
   marks = req.body.marks
   back_marks = req.body.back_marks
   back_marks = req.body.back_marks
@@ -92,7 +89,6 @@ exports.update = (req, res) ->
   try
     #console.log "#{content}, #{marks}, #{content1}, #{content2}, #{content3}, #{content4}"
     check(dateStr).notEmpty()
-    check(deal).notEmpty()
     check(marks).notEmpty()
     check(back_marks).notEmpty()
     check(content1).notEmpty()
@@ -108,7 +104,7 @@ exports.update = (req, res) ->
     check(year).notNull().isNumeric().len(4,4)
     check(months).notNull().isNumeric().len(1,2)
     check(date).notNull().isNumeric().len(1,2)
-    reportModel.updateReport(reportId, userId, deal, marks, back_marks, content1, content3, content4, cc, input, follow, meet, dateStr, (response)->
+    reportModel.updateReport(reportId, userId, marks, back_marks, content1, content3, content4, cc, input, follow, meet, dateStr, (response)->
     #reportModel.createReport(userId, content, dateStr, (response)->
       res.send(response))
   catch error

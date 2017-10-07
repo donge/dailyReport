@@ -48,10 +48,8 @@
                   <span class="label label-success">录入Lists (个)</span><div class="content" data-bind="text: input"></div>
                   <span class="label label-success">Follow Call (通)</span><div class="content" data-bind="text: follow"></div>
                   <span class="label label-success">约见客户 (个)</span><div class="content" data-bind="text: meet"></div>
-
-                  <span class="label label-inverse">今日成交</span><div class="content" data-bind="html: deal"></div>
-	                <span class="label label-inverse">折前 (万)</span><div class="content" data-bind="text: marks"></div>
-	                <span class="label label-inverse">折标 (万)</span><div class="content" data-bind="text: back_marks"></div>
+	                <span class="label label-inverse">今日成交折前 (万)</span><div class="content" data-bind="text: marks"></div>
+	                <span class="label label-inverse">今日成交折标 (万)</span><div class="content" data-bind="text: back_marks"></div>
 	                <span class="label label-warning">反思提高</span><div class="content" data-bind="text: content1"></div>
 
 	                <span class="label label-info">明日计划</span><div class="content" data-bind="text: content3"></div>
@@ -66,10 +64,7 @@
                   <span class="label label-success">Follow Call (通)</span>
                   <div><textarea class="input-xxlarge" id="follow" rows="1" required="required" data-bind="text: follow"></textarea></div>
                   <span class="label label-success">约见客户 (个)</span>
-                  <div><textarea class="input-xxlarge" id="meet" rows="1" required="required" data-bind="text: meet"></textarea></div>
-
-                  <span class="label label-inverse">今日成交</span>
-                  <div><textarea class="input-xxlarge" id="deal" rows="1" required="required" data-bind="text: deal"></textarea></div>
+                  <div><textarea class="input-xxlarge" id="meet" rows="1" required="required" data-bind="text: meet"></textarea></div>s
                   <span class="label label-inverse">折前 (万)</span>
                   <div><textarea class="input-xxlarge" id="marks" rows="1" required="required" data-bind="text: marks"></textarea></div>
                   <span class="label label-inverse">折标 (万)</span>
@@ -92,6 +87,7 @@
                 <div data-bind="visible: !$parent.editable()"><p class="btn btn-small edit" data-bind="attr: {reportId: id}">快速编辑</p></div>
             </li>
         </ul>
+    </article>
 
         <div class="pagination" data-bind="if: pageNum() > 1">
             <button class="btn btn-mini pagePre" title="上一页"
@@ -100,7 +96,6 @@
             <button class="btn btn-mini pageNext" title="下一页"
                     data-bind="visible: currentPage() < pageNum()">&gt;&gt;</button>
         </div>
-    </article>
 </section>
 
 <script type="text/javascript" src='/js/knockout-2.2.1.js'></script>

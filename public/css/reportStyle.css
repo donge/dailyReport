@@ -110,7 +110,7 @@ body.subordinate #reports li.report {
   padding: 10px;
   margin-bottom: 15px;
   float: left;
-  width: 60%;
+  width: 80%;
 }
 #reportList li.report .date span {
   font-size: 18px;

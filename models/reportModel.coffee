@@ -3,14 +3,14 @@ userModel = require('./usersModel')
 utils = require("../utils")
 
 # 创建Report
-exports.createReport = (userId, deal, marks, back_marks, content1, content3, content4, cc, input, follow, meet, dateStr, callback) ->
+exports.createReport = (userId, marks, back_marks, content1, content3, content4, cc, input, follow, meet, dateStr, callback) ->
   client = utils.createClient()
   client.incr("next_report_id", (err, reportId)->
     return utils.showDBError(callback, client) if err
     score = getDateNumber(dateStr)
     client.zadd("userid:#{userId}:reportIds", score, reportId, (err, reply)->
       return utils.showDBError(callback, client) if err
-      client.hmset("userid:#{userId}:reports", "#{reportId}:date", dateStr, "#{reportId}:deal", deal, "#{reportId}:marks", marks, "#{reportId}:back_marks", back_marks, "#{reportId}:content1", content1, "#{reportId}:content3", content3, "#{reportId}:content4", content4, "#{reportId}:cc", cc, "#{reportId}:input", input, "#{reportId}:follow", follow, "#{reportId}:meet", meet, "#{reportId}:time", Date(), (err, reply)->
+      client.hmset("userid:#{userId}:reports", "#{reportId}:date", dateStr, "#{reportId}:marks", marks, "#{reportId}:back_marks", back_marks, "#{reportId}:content1", content1, "#{reportId}:content3", content3, "#{reportId}:content4", content4, "#{reportId}:cc", cc, "#{reportId}:input", input, "#{reportId}:follow", follow, "#{reportId}:meet", meet, "#{reportId}:time", Date(), (err, reply)->
         return utils.showDBError(callback, client) if err
         # 更新daily
         client.hmset("daily:#{dateStr}:summary", "#{userId}:marks", marks, "#{userId}:back_marks", back_marks,
@@ -20,10 +20,10 @@ exports.createReport = (userId, deal, marks, back_marks, content1, content3, con
             callback(new Response(1,'success',reply)) ))))
 
 # 更新Report
-exports.updateReport = (reportId, userId, deal, marks, back_marks, content1, content3, content4, cc, input, follow, meet, dateStr, callback) ->
+exports.updateReport = (reportId, userId, marks, back_marks, content1, content3, content4, cc, input, follow, meet, dateStr, callback) ->
   client = utils.createClient()
-  console.log reportId, userId, deal, marks, back_marks, content1, content3, content4, cc, input, follow, meet, dateStr
-  client.hmset("userid:#{userId}:reports", "#{reportId}:date", dateStr, "#{reportId}:deal", deal, "#{reportId}:marks", marks, "#{reportId}:back_marks", back_marks, "#{reportId}:content1", content1, "#{reportId}:content3", content3, "#{reportId}:content4", content4, "#{reportId}:cc", cc, "#{reportId}:input", input, "#{reportId}:follow", follow, "#{reportId}:meet", meet, "#{reportId}:time", Date(), (err, reply)->
+  console.log reportId, userId, marks, back_marks, content1, content3, content4, cc, input, follow, meet, dateStr
+  client.hmset("userid:#{userId}:reports", "#{reportId}:date", dateStr, "#{reportId}:marks", marks, "#{reportId}:back_marks", back_marks, "#{reportId}:content1", content1, "#{reportId}:content3", content3, "#{reportId}:content4", content4, "#{reportId}:cc", cc, "#{reportId}:input", input, "#{reportId}:follow", follow, "#{reportId}:meet", meet, "#{reportId}:time", Date(), (err, reply)->
     return utils.showDBError(callback, client) if err
     client.quit()
     callback(new Response(1,'success',reply)) )
@@ -46,7 +46,6 @@ exports.getReports = (userId, page, numOfPage, callback) ->
 
     dateArgs = ["userid:#{userId}:reports"]
     timeArgs = ["userid:#{userId}:reports"]
-    dealArgs = ["userid:#{userId}:reports"]
     marksArgs = ["userid:#{userId}:reports"]
     back_marksArgs = ["userid:#{userId}:reports"]
     content1Args = ["userid:#{userId}:reports"]
@@ -60,7 +59,6 @@ exports.getReports = (userId, page, numOfPage, callback) ->
     for reportId in reportIds
       dateArgs.push("#{reportId}:date")
       timeArgs.push("#{reportId}:time")
-      dealArgs.push("#{reportId}:deal")
       marksArgs.push("#{reportId}:marks")
       back_marksArgs.push("#{reportId}:back_marks")
       content1Args.push("#{reportId}:content1")
@@ -74,33 +72,30 @@ exports.getReports = (userId, page, numOfPage, callback) ->
       return utils.showDBError(callback, client) if err
       client.hmget(timeArgs, (err, times)->
         return utils.showDBError(callback, client) if err
-        client.hmget(dealArgs, (err, deals)->
+        client.hmget(marksArgs, (err, markss)->
           return utils.showDBError(callback, client) if err
-          client.hmget(marksArgs, (err, markss)->
+          client.hmget(back_marksArgs, (err, back_markss)->
             return utils.showDBError(callback, client) if err
-            client.hmget(back_marksArgs, (err, back_markss)->
+            client.hmget(content1Args, (err, content1s)->
               return utils.showDBError(callback, client) if err
-              client.hmget(content1Args, (err, content1s)->
+              client.hmget(content3Args, (err, content3s)->
                 return utils.showDBError(callback, client) if err
-                client.hmget(content3Args, (err, content3s)->
+                client.hmget(content4Args, (err, content4s)->
                   return utils.showDBError(callback, client) if err
-                  client.hmget(content4Args, (err, content4s)->
+                  client.hmget(ccArgs, (err, ccs)->
                     return utils.showDBError(callback, client) if err
-                    client.hmget(ccArgs, (err, ccs)->
+                    client.hmget(inputArgs, (err, inputs)->
                       return utils.showDBError(callback, client) if err
-                      client.hmget(inputArgs, (err, inputs)->
+                      client.hmget(followArgs, (err, follows)->
                         return utils.showDBError(callback, client) if err
-                        client.hmget(followArgs, (err, follows)->
+                        client.hmget(meetArgs, (err, meets)->
                           return utils.showDBError(callback, client) if err
-                          client.hmget(meetArgs, (err, meets)->
-                            return utils.showDBError(callback, client) if err
-                            len = deals.length
-                            response = []
-                            for i in [0...len]
-                              response.push({id:reportIds[i], date:dates[i], time:times[i], deal:deals[i], marks:markss[i],  back_marks:back_markss[i], content1:content1s[i], content3:content3s[i], content4:content4s[i], cc:ccs[i], input:inputs[i], follow:follows[i], meet:meets[i]})
-                            client.quit()
-                            callback(new Response(1,'success',response)))))))))))))))
-
+                          len = markss.length
+                          response = []
+                          for i in [0...len]
+                            response.push({id:reportIds[i], date:dates[i], time:times[i], marks:markss[i],back_marks:back_markss[i], content1:content1s[i], content3:content3s[i], content4:content4s[i], cc:ccs[i], input:inputs[i], follow:follows[i], meet:meets[i]})
+                          client.quit()
+                          callback(new Response(1,'success',response))))))))))))))
 
 
 
@@ -112,7 +107,6 @@ exports.getSummary = (userId, startDate, endDate, callback) ->
 
     dateArgs = ["userid:#{userId}:reports"]
     timeArgs = ["userid:#{userId}:reports"]
-    dealArgs = ["userid:#{userId}:reports"]
     marksArgs = ["userid:#{userId}:reports"]
     back_marksArgs = ["userid:#{userId}:reports"]
     content1Args = ["userid:#{userId}:reports"]
@@ -126,7 +120,6 @@ exports.getSummary = (userId, startDate, endDate, callback) ->
     for reportId in reportIds
       dateArgs.push("#{reportId}:date")
       timeArgs.push("#{reportId}:time")
-      dealArgs.push("#{reportId}:deal")
       marksArgs.push("#{reportId}:marks")
       back_marksArgs.push("#{reportId}:back_marks")
       content1Args.push("#{reportId}:content1")
@@ -140,32 +133,30 @@ exports.getSummary = (userId, startDate, endDate, callback) ->
       return utils.showDBError(callback, client) if err
       client.hmget(timeArgs, (err, times)->
         return utils.showDBError(callback, client) if err
-        client.hmget(dealArgs, (err, deals)->
+        client.hmget(marksArgs, (err, markss)->
           return utils.showDBError(callback, client) if err
-          client.hmget(marksArgs, (err, markss)->
+          client.hmget(back_marksArgs, (err, back_markss)->
             return utils.showDBError(callback, client) if err
-            client.hmget(back_marksArgs, (err, back_markss)->
+            client.hmget(content1Args, (err, content1s)->
               return utils.showDBError(callback, client) if err
-              client.hmget(content1Args, (err, content1s)->
+              client.hmget(content3Args, (err, content3s)->
                 return utils.showDBError(callback, client) if err
-                client.hmget(content3Args, (err, content3s)->
+                client.hmget(content4Args, (err, content4s)->
                   return utils.showDBError(callback, client) if err
-                  client.hmget(content4Args, (err, content4s)->
+                  client.hmget(ccArgs, (err, ccs)->
                     return utils.showDBError(callback, client) if err
-                    client.hmget(ccArgs, (err, ccs)->
+                    client.hmget(inputArgs, (err, inputs)->
                       return utils.showDBError(callback, client) if err
-                      client.hmget(inputArgs, (err, inputs)->
+                      client.hmget(followArgs, (err, follows)->
                         return utils.showDBError(callback, client) if err
-                        client.hmget(followArgs, (err, follows)->
+                        client.hmget(meetArgs, (err, meets)->
                           return utils.showDBError(callback, client) if err
-                          client.hmget(meetArgs, (err, meets)->
-                            return utils.showDBError(callback, client) if err
-                            len = deals.length
-                            response = []
-                            for i in [0...len]
-                              response.push({id:reportIds[i], date:dates[i], time:times[i], deal:deals[i], marks:markss[i],  back_marks:back_markss[i], content1:content1s[i], content3:content3s[i], content4:content4s[i], cc:ccs[i], input:inputs[i], follow:follows[i], meet:meets[i]})
-                            client.quit()
-                            callback(new Response(1,'success',response)))))))))))))))
+                          len = markss.length
+                          response = []
+                          for i in [0...len]
+                            response.push({id:reportIds[i], date:dates[i], time:times[i],  marks:markss[i],back_marks:back_markss[i], content1:content1s[i], content3:content3s[i], content4:content4s[i], cc:ccs[i], input:inputs[i], follow:follows[i], meet:meets[i]})
+                          client.quit()
+                          callback(new Response(1,'success',response))))))))))))))
 
 exports.getReportNum = (userId, callback) ->
   client = utils.createClient()

@@ -50,7 +50,6 @@
       dateStr = getDateStr($("#dateTxt").datepicker("getDate"));
       data = {
         date: dateStr,
-        deal: $("#deal").val(),
         marks: $("#marks").val(),
         back_marks: $("#back_marks").val(),
         content1: $("#content1").val(),

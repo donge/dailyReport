@@ -45,7 +45,7 @@
     <thead>
     <tr>
         <th class="span1">日期</th>
-        <th class="span1">CC</th>
+        <th class="span1">有效CC</th>
         <th class="span1">录入Lists</th>
         <th class="span1">Follow Call</th>
         <th class="span1">约见客户</th>
@@ -74,8 +74,6 @@
                   <span class="label label-success">录入Lists (个)</span><div class="content" data-bind="text: input"></div>
                   <span class="label label-success">Follow Call (通)</span><div class="content" data-bind="text: follow"></div>
                   <span class="label label-success">约见客户 (个)</span><div class="content" data-bind="text: meet"></div>
-
-                  <span class="label label-inverse">今日成交</span><div class="content" data-bind="html: deal"></div>
 	                <span class="label label-inverse">折前 (万)</span><div class="content" data-bind="text: marks"></div>
 	                <span class="label label-inverse">折标 (万)</span><div class="content" data-bind="text: back_marks"></div>
 	                <span class="label label-warning">反思提高</span><div class="content" data-bind="text: content1"></div>
@@ -93,9 +91,6 @@
                   <div><textarea class="input-xxlarge" id="follow" rows="1" required="required" data-bind="text: follow"></textarea></div>
                   <span class="label label-success">约见客户 (个)</span>
                   <div><textarea class="input-xxlarge" id="meet" rows="1" required="required" data-bind="text: meet"></textarea></div>
-
-                  <span class="label label-inverse">今日成交</span>
-                  <div><textarea class="input-xxlarge" id="deal" rows="1" required="required" data-bind="text: deal"></textarea></div>
                   <span class="label label-inverse">折前 (万)</span>
                   <div><textarea class="input-xxlarge" id="marks" rows="1" required="required" data-bind="text: marks"></textarea></div>
                   <span class="label label-inverse">折标 (万)</span>
@@ -110,14 +105,15 @@
 	                <p class="muted text-right" data-bind="text: time"></p>
             </li>
         </ul>
-        <div class="pagination" data-bind="if: pageNum() > 1">
+
+    </article>
+            <div class="pagination" data-bind="if: pageNum() > 1">
             <button class="btn btn-mini pagePre" title="上一页"
                     data-bind="visible: currentPage()>1">&lt;&lt;</button>
             <span data-bind="text: currentPage() + '/' + pageNum()"></span>
             <button class="btn btn-mini pageNext" title="下一页"
                     data-bind="visible: currentPage() < pageNum()">&gt;&gt;</button>
         </div>
-    </article>
 </section>
 
 <script type="text/javascript" src='/js/knockout-2.2.1.js'></script>

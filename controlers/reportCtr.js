@@ -65,14 +65,13 @@
   };
 
   exports.write = function(req, res) {
-    var back_marks, cc, content1, content3, content4, date, dateStr, deal, error, error1, follow, input, marks, meet, months, ref, userId, year;
+    var back_marks, cc, content1, content3, content4, date, dateStr, error, error1, follow, input, marks, meet, months, ref, userId, year;
     console.log("trigger here");
     if (!utils.authenticateUser(req, res)) {
       return;
     }
     userId = req.session.userId;
     dateStr = req.body.date;
-    deal = req.body.deal;
     marks = req.body.marks;
     back_marks = req.body.back_marks;
     content1 = req.body.content1;
@@ -83,9 +82,8 @@
     follow = req.body.follow;
     meet = req.body.meet;
     try {
-      console.log(deal + ", " + marks + ", " + back_marks + "," + content1 + ", " + content3 + ", " + content4 + ", " + cc + ", " + input + ", " + follow + ", " + meet);
+      console.log(marks + ", " + back_marks + "," + content1 + ", " + content3 + ", " + content4 + ", " + cc + ", " + input + ", " + follow + ", " + meet);
       check(dateStr).notEmpty();
-      check(deal).notEmpty();
       check(marks).notEmpty();
       check(back_marks).notEmpty();
       check(content1).notEmpty();
@@ -98,7 +96,7 @@
       check(year).notNull().isNumeric().len(4, 4);
       check(months).notNull().isNumeric().len(1, 2);
       check(date).notNull().isNumeric().len(1, 2);
-      return reportModel.createReport(userId, deal, marks, back_marks, content1, content3, content4, cc, input, follow, meet, dateStr, function(response) {
+      return reportModel.createReport(userId, marks, back_marks, content1, content3, content4, cc, input, follow, meet, dateStr, function(response) {
         return res.send(response);
       });
     } catch (error1) {
@@ -108,14 +106,13 @@
   };
 
   exports.update = function(req, res) {
-    var back_marks, cc, content1, content3, content4, date, dateStr, deal, error, error1, follow, input, marks, meet, months, ref, reportId, userId, year;
+    var back_marks, cc, content1, content3, content4, date, dateStr, error, error1, follow, input, marks, meet, months, ref, reportId, userId, year;
     if (!utils.authenticateUser(req, res)) {
       return;
     }
     userId = req.session.userId;
     reportId = req.body.id;
     dateStr = req.body.date;
-    deal = req.body.deal;
     marks = req.body.marks;
     back_marks = req.body.back_marks;
     back_marks = req.body.back_marks;
@@ -128,7 +125,6 @@
     meet = req.body.meet;
     try {
       check(dateStr).notEmpty();
-      check(deal).notEmpty();
       check(marks).notEmpty();
       check(back_marks).notEmpty();
       check(content1).notEmpty();
@@ -141,7 +137,7 @@
       check(year).notNull().isNumeric().len(4, 4);
       check(months).notNull().isNumeric().len(1, 2);
       check(date).notNull().isNumeric().len(1, 2);
-      return reportModel.updateReport(reportId, userId, deal, marks, back_marks, content1, content3, content4, cc, input, follow, meet, dateStr, function(response) {
+      return reportModel.updateReport(reportId, userId, marks, back_marks, content1, content3, content4, cc, input, follow, meet, dateStr, function(response) {
         return res.send(response);
       });
     } catch (error1) {
