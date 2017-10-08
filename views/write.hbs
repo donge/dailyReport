@@ -16,7 +16,7 @@
     <ul class="nav">
         <li class="active"><a href="/write">写日报</a></li>
         <li><a href="/show">日报</a></li>
-        <li><a href="/show_summary">活动</a></li>
+        <li><a href="/show_summary">活动量</a></li>
         {{#if hasSubordinate}}
         <li ><a href="/showsubordinate">下属日报</a></li>
         {{/if}}
@@ -70,14 +70,14 @@
         <span class="add-on">个</span></div>
   </div>
   <div class="span2">
-    <label for="marks"><span class="label label-success">今日成交折前</span></label>
+    <label for="marks"><span class="label label-inverse">今日成交折前</span></label>
       <div class="input-append">
         <input class="span6" id="marks" type="number" required="required" value="0"></input>
         <span class="add-on">万</span>
       </div>
   </div>
   <div class="span2">
-    <label for="back_marks"><span class="label label-success">今日成交折标</span></label>
+    <label for="back_marks"><span class="label label-inverse">今日成交折标</span></label>
       <div class="input-append">
         <input class="span6" id="back_marks" type="number" required="required" value="0"></input>
         <span class="add-on">万</span>

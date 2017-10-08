@@ -16,7 +16,7 @@
     <ul class="nav">
         <li ><a href="/write">写日报</a></li>
         <li><a href="/show">日报</a></li>
-        <li ><a href="/show_summary">活动</a></li>
+        <li ><a href="/show_summary">活动量</a></li>
         {{#if hasSubordinate}}
         <li class="active"><a href="/showsubordinate">下属日报</a></li>
         {{/if}}
@@ -67,6 +67,13 @@
     </tbody>
 </table>
     <article id="reportList" >
+         <div class="pagination" data-bind="if: pageNum() > 1">
+            <button class="btn btn-mini pagePre" title="上一页"
+                    data-bind="visible: currentPage()>1">&lt;&lt;</button>
+            <span data-bind="text: currentPage() + '/' + pageNum()"></span>
+            <button class="btn btn-mini pageNext" title="下一页"
+                    data-bind="visible: currentPage() < pageNum()">&gt;&gt;</button>
+        </div>
         <ul class="unstyled" data-bind="foreach: reports">
             <li class="report">
                 <p class="date"><i class="icon-calendar"></i><span data-bind="text: date"></span></p>
@@ -105,15 +112,15 @@
 	                <p class="muted text-right" data-bind="text: time"></p>
             </li>
         </ul>
-
-    </article>
-            <div class="pagination" data-bind="if: pageNum() > 1">
+     <div class="pagination" data-bind="if: pageNum() > 1">
             <button class="btn btn-mini pagePre" title="上一页"
                     data-bind="visible: currentPage()>1">&lt;&lt;</button>
             <span data-bind="text: currentPage() + '/' + pageNum()"></span>
             <button class="btn btn-mini pageNext" title="下一页"
                     data-bind="visible: currentPage() < pageNum()">&gt;&gt;</button>
         </div>
+    </article>
+
 </section>
 
 <script type="text/javascript" src='/js/knockout-2.2.1.js'></script>
