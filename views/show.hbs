@@ -17,7 +17,7 @@
     <ul class="nav">
         <li><a href="/write">写日报</a></li>
         <li class="active"><a href="/show">日报</a></li>
-        <li><a href="/show_summary">活动</a></li>
+        <li><a href="/show_summary">活动量</a></li>
         {{#if hasSubordinate}}
         <li ><a href="/showsubordinate">下属日报</a></li>
         {{/if}}
@@ -40,6 +40,13 @@
     <div class="title"> <i class="icon-book"></i><h1>我的日报</h1></div>
 
     <article id="reportList">
+                    <div class="pagination" data-bind="if: pageNum() > 1">
+            <button class="btn btn-mini pagePre" title="上一页"
+                    data-bind="visible: currentPage()>1">&lt;&lt;</button>
+            <span data-bind="text: currentPage() + '/' + pageNum()"></span>
+            <button class="btn btn-mini pageNext" title="下一页"
+                    data-bind="visible: currentPage() < pageNum()">&gt;&gt;</button>
+        </div>
         <ul class="unstyled" data-bind="foreach: reports">
             <li class="report">
                 <p class="date"><i class="icon-calendar"></i><span data-bind="text: date"></span></p>
@@ -56,6 +63,7 @@
 	                <span class="label label-important">需要帮助</span><div class="content" data-bind="text: content4"></div>
 	                <p class="muted text-right" data-bind="text: time"></p>
 	              </div>
+
                 <div data-bind="visible: $parent.editable()">
                   <span class="label label-success">有效CC (通)</span>
                   <div><textarea class="input-xxlarge" id="cc" rows="1" required="required" data-bind="text: cc"></textarea></div>
@@ -64,10 +72,10 @@
                   <span class="label label-success">Follow Call (通)</span>
                   <div><textarea class="input-xxlarge" id="follow" rows="1" required="required" data-bind="text: follow"></textarea></div>
                   <span class="label label-success">约见客户 (个)</span>
-                  <div><textarea class="input-xxlarge" id="meet" rows="1" required="required" data-bind="text: meet"></textarea></div>s
-                  <span class="label label-inverse">折前 (万)</span>
+                  <div><textarea class="input-xxlarge" id="meet" rows="1" required="required" data-bind="text: meet"></textarea></div>
+                  <span class="label label-inverse">今日成交折前 (万)</span>
                   <div><textarea class="input-xxlarge" id="marks" rows="1" required="required" data-bind="text: marks"></textarea></div>
-                  <span class="label label-inverse">折标 (万)</span>
+                  <span class="label label-inverse">今日成交折标 (万)</span>
                   <div><textarea class="input-xxlarge" id="back_marks" rows="1" required="required" data-bind="text: back_marks"></textarea></div>
                   <span class="label label-warning">反思提高</span>
                   <div><textarea class="input-xxlarge" id="content1" rows="1" required="required" data-bind="text: content1"></textarea></div>
@@ -76,7 +84,6 @@
 	                <span class="label label-important">需要帮助</span><div><textarea class="input-xxlarge" id="content4" rows="1" required="required" data-bind="text: content4"></textarea></div>
 
 	                <textarea style="display:none" id="dateTxt" rows="1" cols="30" required="required" placeholder="your score..." data-bind="text: date"></textarea>
-
 	                <p class="btn btn-small update" data-bind="attr: {reportId: id}">保存修改</p>
 	                {{#if isAdmin}}
 	                <p class="btn btn-link delete" data-bind="attr: {reportId: id}">删除</p>
@@ -87,15 +94,14 @@
                 <div data-bind="visible: !$parent.editable()"><p class="btn btn-small edit" data-bind="attr: {reportId: id}">快速编辑</p></div>
             </li>
         </ul>
-    </article>
-
-        <div class="pagination" data-bind="if: pageNum() > 1">
+                <div class="pagination" data-bind="if: pageNum() > 1">
             <button class="btn btn-mini pagePre" title="上一页"
                     data-bind="visible: currentPage()>1">&lt;&lt;</button>
             <span data-bind="text: currentPage() + '/' + pageNum()"></span>
             <button class="btn btn-mini pageNext" title="下一页"
                     data-bind="visible: currentPage() < pageNum()">&gt;&gt;</button>
         </div>
+    </article>
 </section>
 
 <script type="text/javascript" src='/js/knockout-2.2.1.js'></script>
